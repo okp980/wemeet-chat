@@ -25,7 +25,7 @@ const WebScreen = ({ route }: any) => {
             </TouchableOpacity>
           ),
           headerBackTitleVisible: false,
-          headerTitle: () => <CustomText as="h2">weMeet</CustomText>,
+          headerTitle: () => <CustomText size="h2">weMeet</CustomText>,
         }}
       />
       <WebView

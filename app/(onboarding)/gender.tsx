@@ -35,7 +35,7 @@ const Gender = ({ navigation }: Props) => {
 
   return (
     <Layout className="justify-between px-10 py-5">
-      <CustomText as="large">I am a</CustomText>
+      <CustomText size="large">I am a</CustomText>
       <View>
         <Button
           variant={gender === "male" ? "primary" : "outline"}

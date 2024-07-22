@@ -41,8 +41,8 @@ const Passion = ({ navigation }: Props) => {
   return (
     <Layout className="justify-between p-5">
       <View>
-        <CustomText as="large">Your interests</CustomText>
-        <CustomText as="regular">
+        <CustomText size="large">Your interests</CustomText>
+        <CustomText size="regular">
           Select a few of your interests and let everyone know what you’re
           passionate about.
         </CustomText>

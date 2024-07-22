@@ -1,14 +1,14 @@
 import React from "react"
 import { OnboardFlow, DashDotPagination } from "react-native-onboard"
 import { slides } from "../../helpers/data"
-import { useAuth, useCustomTheme } from "../../hooks"
+import { useAuth } from "../../hooks"
 import { Navigation } from "../../constants"
+import { appColor } from "@/constants/color"
+import { useThemeColor } from "@/hooks/useThemeColor"
 
 const Welcome = ({ navigation }: any) => {
   const { welcome } = useAuth()
-  const {
-    color: { colors },
-  } = useCustomTheme()
+  const background = useThemeColor({}, "background")
 
   const handleDone = () => {
     welcome()
@@ -19,20 +19,20 @@ const Welcome = ({ navigation }: any) => {
       PaginationComponent={(props) => <DashDotPagination {...props} />}
       pages={slides}
       type={"fullscreen"}
-      primaryButtonStyle={{ backgroundColor: "#E94057" }}
-      paginationSelectedColor="#E94057"
-      style={{ backgroundColor: colors.background }}
+      primaryButtonStyle={{ backgroundColor: appColor.PRIMARY }}
+      paginationSelectedColor={appColor.PRIMARY}
+      style={{ backgroundColor: background }}
       titleStyle={{
         fontWeight: "600",
         fontSize: 24,
         fontFamily: "NotoSans-Bold",
-        color: colors.primary,
+        color: appColor.PRIMARY,
       }}
       subtitleStyle={{
         fontWeight: "400",
         fontSize: 16,
         fontFamily: "NotoSans-Regular",
-        color: colors.text,
+        color: appColor.BLACK100,
       }}
       onDone={handleDone}
     />

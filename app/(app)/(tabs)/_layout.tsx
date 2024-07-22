@@ -37,7 +37,7 @@ export default function TabLayout() {
                 <View>
                   <Svg.Message fill={focused ? "#E94057" : "#ADAFBB"} />
                   <View className="bg-[#E94057] h-5 w-5 justify-center items-center rounded-full absolute top-[-8px] right-[-10px] border border-[#F3F3F3]">
-                    <CustomText as="tiny" color="white">
+                    <CustomText size="tiny" color="white">
                       5
                     </CustomText>
                   </View>
@@ -71,10 +71,10 @@ export default function TabLayout() {
         options={{
           headerTitle: () => (
             <>
-              <CustomText as="h1" className="text-3xl">
+              <CustomText size="h1" className="text-3xl">
                 Discover
               </CustomText>
-              <CustomText as="small">Chicago,ll.</CustomText>
+              <CustomText size="small">Chicago,ll.</CustomText>
             </>
           ),
         }}

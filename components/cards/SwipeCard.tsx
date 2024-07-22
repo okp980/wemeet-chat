@@ -9,9 +9,9 @@ import {
 import React from "react"
 import { useNavigation } from "@react-navigation/native"
 import { LinearGradient } from "expo-linear-gradient"
-import CustomText from "../customText/CustomText"
 import FastImage from "react-native-fast-image"
 import { User } from "../../types/auth"
+import { CustomText } from "../customText/CustomText"
 
 type Props = {
   info: User
@@ -40,7 +40,7 @@ const SwipeCard = ({ info }: Props) => {
         className="rounded-2xl"
       />
       <View style={styles.info}>
-        <CustomText as="h2" color="white">
+        <CustomText size="h2" style={{ color: "white" }}>
           {info?.profile?.firstName}, {info?.profile?.gender}
         </CustomText>
       </View>

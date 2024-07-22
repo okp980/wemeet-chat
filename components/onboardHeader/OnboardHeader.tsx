@@ -1,21 +1,31 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import Button from '../button/Button';
-import Svg from '../../constants/svg';
-import clsx from 'clsx';
-import {Navigation} from '../../constants';
-import {useAuth, useCustomTheme} from '../../hooks';
+import { View, Text, TouchableOpacity } from "react-native"
+import React from "react"
+import { useNavigation } from "@react-navigation/native"
+import Svg from "../../constants/svg"
+import { Navigation } from "../../constants"
+import { ThemedView } from "../ThemedView"
+import { useAuth } from "@/hooks"
+import { useThemeColor } from "@/hooks/useThemeColor"
+import CustomText from "../customText/CustomText"
+import { appColor } from "@/constants/color"
 
 type Props = {
-  next: keyof typeof Navigation;
-};
+  next: keyof typeof Navigation
+}
 
-export const OnboardHeaderWithOutGoBack = ({next}: Props) => {
-  const navigation = useNavigation();
+export const OnboardHeaderWithOutGoBack = ({ next }: Props) => {
+  const navigation = useNavigation()
 
   return (
-    <View className={clsx('h-14 px-4 flex-row items-center justify-end')}>
+    <ThemedView
+      style={{
+        height: 56,
+        paddingHorizontal: 16,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+      }}
+    >
       <TouchableOpacity
         onPress={() =>
           next === Navigation.HOME_SCREEN
@@ -25,44 +35,60 @@ export const OnboardHeaderWithOutGoBack = ({next}: Props) => {
               })
             : // @ts-ignore
               navigation.navigate(next)
-        }>
-        <Text className="text-primary text-base font-medium">skip</Text>
+        }
+      >
+        <CustomText style={{ color: appColor.PRIMARY }}>skip</CustomText>
       </TouchableOpacity>
-    </View>
-  );
-};
+    </ThemedView>
+  )
+}
 
-const OnboardHeader = ({next}: Props) => {
-  const {
-    color: {colors},
-  } = useCustomTheme();
-  const navigation = useNavigation();
-  const {compeleteProfileOnboarding} = useAuth();
+const OnboardHeader = ({ next }: Props) => {
+  const iconColor = useThemeColor({}, "icon")
+  const navigation = useNavigation()
+  const { compeleteProfileOnboarding } = useAuth()
   const onNavigate = (next: string) => {
     if (next === Navigation.HOME_SCREEN) {
-      compeleteProfileOnboarding();
+      compeleteProfileOnboarding()
       // @ts-ignore
       navigation.navigate(Navigation.TAB_NAVIGATION, {
         screen: Navigation.HOME_SCREEN,
-      });
+      })
     } else {
       // @ts-ignore
-      navigation.navigate(next);
+      navigation.navigate(next)
     }
-  };
+  }
   return (
-    <View className={clsx('h-16 px-4 flex-row items-center justify-between')}>
+    <ThemedView
+      style={{
+        height: 64,
+        paddingHorizontal: 16,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
       <TouchableOpacity
-        className="border border-gray-200 rounded-2xl h-12 w-14 justify-center items-center"
-        onPress={navigation.goBack}>
-        <Svg.LeftCaret fill={colors.primary} />
+        style={{
+          borderWidth: 1,
+          borderColor: appColor.BORDER,
+          borderRadius: 16,
+          height: 48,
+          width: 56,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onPress={navigation.goBack}
+      >
+        <Svg.LeftCaret fill={iconColor} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => onNavigate(next)}>
-        <Text className="text-primary text-base font-medium">skip</Text>
+        <CustomText style={{ color: appColor.PRIMARY }}>skip</CustomText>
       </TouchableOpacity>
-    </View>
-  );
-};
+    </ThemedView>
+  )
+}
 
-export default OnboardHeader;
+export default OnboardHeader

@@ -17,7 +17,7 @@ const Title = ({ title }: { title: string }) => (
   <View className="flex-row items-center py-1 bg-white">
     <View className="h-[1px] flex-1 bg-[#E8E6EA]" />
     <View className="flex-1 items-center">
-      <CustomText as="small" className="capitalize">
+      <CustomText size="small" className="capitalize">
         {title}
       </CustomText>
     </View>
@@ -60,7 +60,7 @@ const Match = (props: Props) => {
   if (isError)
     return (
       <View className="flex-1 justify-center items-center">
-        <CustomText as="regular" className="bg-red-500 p-7" color="white">
+        <CustomText size="regular" className="bg-red-500 p-7" color="white">
           {/* @ts-ignore */}
           {error?.data?.message ?? "Error Fetching Data"}
         </CustomText>
@@ -69,13 +69,13 @@ const Match = (props: Props) => {
   if (matches?.length === 0 && isSuccess) {
     return (
       <View className="flex-1 justify-center items-center">
-        <CustomText as="regular">No Likes yet</CustomText>
+        <CustomText size="regular">No Likes yet</CustomText>
       </View>
     )
   }
   return (
     <Layout>
-      <CustomText as="regular">
+      <CustomText size="regular">
         This is a list of people who have liked you and your matches.
       </CustomText>
       <SectionList

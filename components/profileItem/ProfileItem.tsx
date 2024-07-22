@@ -1,31 +1,30 @@
-import React, {ReactElement} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import CustomText from '../customText/CustomText';
-import {Svg} from '../../constants';
-import {useCustomTheme} from '../../hooks';
+import React, { ReactElement } from "react"
+import { TouchableOpacity, View } from "react-native"
+import CustomText from "../customText/CustomText"
+import { Svg } from "../../constants"
+import { useThemeColor } from "@/hooks/useThemeColor"
 
 type Props = {
-  icon: ReactElement;
-  title: string;
-  showCaret?: boolean;
-  handlePress: () => void;
-};
+  icon: ReactElement
+  title: string
+  showCaret?: boolean
+  handlePress: () => void
+}
 
-const ProfileItem = ({icon, title, handlePress, showCaret = true}: Props) => {
-  const {
-    color: {colors},
-  } = useCustomTheme();
+const ProfileItem = ({ icon, title, handlePress, showCaret = true }: Props) => {
+  const iconColor = useThemeColor({}, "icon")
   return (
     <TouchableOpacity
-      className="flex-row gap-4  items-center"
-      onPress={handlePress}>
+      style={{ flexDirection: "row", gap: 16, alignItems: "center" }}
+      onPress={handlePress}
+    >
       {icon}
-      <View className="flex-1">
-        <CustomText as="regular">{title}</CustomText>
+      <View style={{ flex: 1 }}>
+        <CustomText>{title}</CustomText>
       </View>
-      {showCaret && <Svg.RightCaret stroke={colors.text} />}
+      {showCaret && <Svg.RightCaret stroke={iconColor} />}
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default ProfileItem;
+export default ProfileItem

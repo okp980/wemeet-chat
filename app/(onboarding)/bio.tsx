@@ -108,7 +108,7 @@ const BioData = ({ navigation }: any) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Layout className="justify-between px-10 py-5">
-        <CustomText as="large">Profile details</CustomText>
+        <CustomText size="large">Profile details</CustomText>
         <View className="mx-auto relative w-28 h-28 rounded-2xl">
           <FastImage
             source={

@@ -39,8 +39,8 @@ const Profile = ({ navigation }: any) => {
       <View className="relative bg-white rounded-tl-[40px] rounded-tr-[40px] top-[-10%] px-10 pt-20">
         <View className="flex-row justify-between items-center ">
           <View>
-            <CustomText as="h2">Jessica Parker, 23</CustomText>
-            <CustomText as="small" className="font-light">
+            <CustomText size="h2">Jessica Parker, 23</CustomText>
+            <CustomText size="small" className="font-light">
               Proffesional model
             </CustomText>
           </View>
@@ -51,16 +51,16 @@ const Profile = ({ navigation }: any) => {
           />
         </View>
         <View className="mt-2">
-          <CustomText as="h3" className="mb-4">
+          <CustomText size="h3" className="mb-4">
             Location
           </CustomText>
-          <CustomText as="small">Chicago, IL United States</CustomText>
+          <CustomText size="small">Chicago, IL United States</CustomText>
         </View>
         <View className="mt-2">
-          <CustomText as="h3" className="mb-4">
+          <CustomText size="h3" className="mb-4">
             About
           </CustomText>
-          <CustomText as="small">
+          <CustomText size="small">
             My name is Jessica Parker and I enjoy meeting new people and finding
             ways to help them have an uplifting experience. I enjoy reading..
           </CustomText>
@@ -73,20 +73,20 @@ const Profile = ({ navigation }: any) => {
           </Button>
         </View>
         <View className="mt-2">
-          <CustomText as="h3" className="mb-4">
+          <CustomText size="h3" className="mb-4">
             Interests
           </CustomText>
           <View className="flex-row gap-1 flex-wrap justify-center">
             {interests.map((interest, index) => (
               <View key={index} className="w-1/4 border border-[#E8E6EA] p-2">
-                <CustomText as="small">{interest}</CustomText>
+                <CustomText size="small">{interest}</CustomText>
               </View>
             ))}
           </View>
         </View>
         <View className="mt-2">
           <View className="flex-row justify-between items-center">
-            <CustomText as="h3" className="mb-4">
+            <CustomText size="h3" className="mb-4">
               Gallery
             </CustomText>
             <Button

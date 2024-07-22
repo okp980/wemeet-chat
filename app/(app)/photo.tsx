@@ -48,7 +48,7 @@ const Photo = ({ navigation }: Props) => {
           />
 
           <View className="flex-1 py-2">
-            <CustomText as="h3">Annabelle</CustomText>
+            <CustomText size="h3">Annabelle</CustomText>
           </View>
           <TouchableOpacity
             onPress={navigation.goBack}

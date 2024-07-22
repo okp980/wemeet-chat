@@ -1,27 +1,22 @@
-import { View, Text, StyleProp, ViewStyle, ViewProps } from "react-native"
-import React from "react"
-import { styled } from "nativewind"
-import { useCustomTheme } from "../../hooks"
+import { SafeAreaView, ViewProps } from "react-native"
+import { ThemedView } from "../ThemedView"
+import { StatusBar } from "expo-status-bar"
 
-type Props = {
-  style?: StyleProp<ViewStyle>
-} & ViewProps
-
-const Layout = ({ style, children, ...props }: Props) => {
-  const { color } = useCustomTheme()
+export default function Layout({ style, children, ...props }: ViewProps) {
   return (
-    <View
-      style={[style, { backgroundColor: color.colors.background }]}
-      className="flex-1 px-5"
-      {...props}
-    >
-      {children}
-    </View>
+    <ThemedView style={[{ flex: 1 }, style]} {...props}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        }}
+      >
+        <StatusBar
+          style="auto"
+          // style={colorScheme === "dark" ? "dark-content" : "light-content"}
+        />
+        {children}
+      </SafeAreaView>
+    </ThemedView>
   )
 }
-
-export default styled(Layout, {
-  props: {
-    style: true,
-  },
-})

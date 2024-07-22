@@ -17,7 +17,6 @@ import {
   NotificationToggle,
   PassionList,
   ProfileItem,
-  ThemeToggle,
 } from "../../../components"
 import FastImage from "react-native-fast-image"
 import { Svg, Navigation } from "../../../constants"
@@ -30,6 +29,7 @@ import { selectImage } from "../../../helpers/utils"
 import { showMessage } from "react-native-flash-message"
 // import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { useAuth } from "../../../hooks"
+import { appColor } from "@/constants/color"
 
 type Props = {}
 
@@ -43,10 +43,8 @@ const Profile = ({ navigation }: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity className="mr-4" onPress={signOut}>
-          <CustomText as="regular" className="font-bold">
-            Sign Out
-          </CustomText>
+        <TouchableOpacity style={{ marginRight: 16 }} onPress={signOut}>
+          <CustomText weight="bold">Sign Out</CustomText>
         </TouchableOpacity>
       ),
     })
@@ -143,59 +141,119 @@ const Profile = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <View className="items-center justify-center">
-        <ActivityIndicator size="large" />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={appColor.PRIMARY} />
       </View>
     )
   }
 
   return (
     <Layout>
-      <View className="flex-row items-center gap-4 mb-8 pt-2">
-        <View className="relative w-24 h-24 rounded-full">
+      <View
+        style={{
+          paddingTop: 8,
+          marginBottom: 32,
+          flexDirection: "row",
+          gap: 16,
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            position: "relative",
+            height: 96,
+            width: 96,
+            borderRadius: 36 / 2,
+          }}
+        >
           <FastImage
             source={{
               uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             }}
-            className="w-24 h-24 rounded-full"
+            style={{ height: 96, width: 96, borderRadius: 36 / 2 }}
           />
           <TouchableOpacity onPress={handleSelectImage}>
-            <View className="bg-primary h-9 w-9 rounded-full justify-center items-center border border-white absolute right-[-5px] bottom-[-5px]">
+            <View
+              style={{
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: appColor.PRIMARY,
+                height: 36,
+                width: 36,
+                borderRadius: 36 / 2,
+                borderWidth: 1,
+                borderColor: "#ffffff",
+                right: 5,
+                bottom: 5,
+              }}
+            >
               <Svg.Camera />
             </View>
           </TouchableOpacity>
         </View>
-        <View className="relative">
-          <CustomText as="h3">{profile?.name}</CustomText>
-          <CustomText as="medium">
-            <Text style={{ fontWeight: "800" }}>22</Text> Meets
+        <View style={{ position: "relative" }}>
+          <CustomText size="h3">{profile?.name}</CustomText>
+          <CustomText>
+            <CustomText weight="bold">22</CustomText> Meets
           </CustomText>
           <TouchableOpacity
-            className="absolute right-[-30px] top-1 h-6 w-6 items-center justify-center rounded-full bg-primary"
+            style={{
+              position: "absolute",
+              top: 4,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 24 / 2,
+              width: 24,
+              height: 24,
+              right: 30,
+            }}
             onPress={() => openEditProfileModal("name")}
           >
             <Svg.Edit fill={"white"} />
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <ProfileItem
           title="Edit Bio"
           icon={
-            <View className="rounded bg-primary px-2 py-1">
+            <View
+              style={{
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
+                backgroundColor: appColor.PRIMARY,
+              }}
+            >
               <Svg.Person fill={"white"} width={16} />
             </View>
           }
           showCaret={false}
           handlePress={() => openEditProfileModal("bio")}
         />
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <NotificationToggle />
-        <View className="mt-4 border-t border-b py-4 border-gray-300">
+        <View
+          style={{
+            paddingTop: 4,
+            paddingVertical: 4,
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: "#D1D5DB",
+          }}
+        >
           <ProfileItem
             title="Terms and conditions"
             icon={
-              <View className="rounded bg-primary px-2 py-1">
+              <View
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor: appColor.PRIMARY,
+                }}
+              >
                 <Svg.Home fill={"white"} width={16} />
               </View>
             }
@@ -205,11 +263,18 @@ const Profile = ({ navigation }: any) => {
               })
             }}
           />
-          <View className="my-2" />
+          <View style={{ marginVertical: 8 }} />
           <ProfileItem
             title="Privacy policy"
             icon={
-              <View className="rounded bg-primary px-2 py-1">
+              <View
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor: appColor.PRIMARY,
+                }}
+              >
                 <Svg.Info fill={"white"} width={18} />
               </View>
             }
@@ -219,22 +284,36 @@ const Profile = ({ navigation }: any) => {
               })
             }}
           />
-          <View className="my-2" />
+          <View style={{ marginVertical: 8 }} />
           <ProfileItem
             title="Share with friends"
             icon={
-              <View className="rounded bg-primary px-2 py-1">
+              <View
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor: appColor.PRIMARY,
+                }}
+              >
                 <Svg.Share fill={"white"} width={16} />
               </View>
             }
             showCaret={false}
             handlePress={handleShare}
           />
-          <View className="my-2" />
+          <View style={{ marginVertical: 8 }} />
           <ProfileItem
             title="Rate app"
             icon={
-              <View className="rounded bg-primary px-2 ">
+              <View
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor: appColor.PRIMARY,
+                }}
+              >
                 <Svg.Star fill={"white"} width={16} />
               </View>
             }
@@ -242,7 +321,7 @@ const Profile = ({ navigation }: any) => {
             handlePress={handleRateApp}
           />
         </View>
-        <CustomText as="regular" className="text-center my-4">
+        <CustomText style={{ textAlign: "center", marginVertical: 16 }}>
           Version 0.1.1
         </CustomText>
       </ScrollView>

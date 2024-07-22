@@ -111,7 +111,7 @@ const Chat = ({ navigation }: Props) => {
             />
           )}
         </Form>
-        <CustomText as="h3">Activities</CustomText>
+        <CustomText size="h3">Activities</CustomText>
         <FlatList
           className="my-1 h-28"
           data={matches?.data ?? []}
@@ -129,14 +129,14 @@ const Chat = ({ navigation }: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           ListEmptyComponent={
-            <CustomText as="regular" className="text-center">
+            <CustomText size="regular" className="text-center">
               No Friends yet.
             </CustomText>
           }
         />
       </View>
       <View className="flex-1">
-        <CustomText as="h3">Messages</CustomText>
+        <CustomText size="h3">Messages</CustomText>
         <FlatList
           className="my-2"
           data={chats}
@@ -150,7 +150,7 @@ const Chat = ({ navigation }: Props) => {
           ItemSeparatorComponent={() => <View className="mb-2" />}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
-            <CustomText as="regular" className="text-center">
+            <CustomText size="regular" className="text-center">
               No Chats yet.
             </CustomText>
           }
