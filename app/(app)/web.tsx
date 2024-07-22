@@ -4,6 +4,7 @@ import { CustomText, Layout } from "../../components"
 import { WebView } from "react-native-webview"
 import { Stack, router } from "expo-router"
 import { Svg } from "@/constants"
+import { appColor } from "@/constants/color"
 
 type Props = {}
 
@@ -33,7 +34,7 @@ const WebScreen = ({ route }: any) => {
         style={{ flex: 1 }}
         renderLoading={() => (
           <View style={{ flex: 1 }}>
-            <ActivityIndicator size="large" color="#E94057" />
+            <ActivityIndicator size="large" color={appColor.PRIMARY} />
           </View>
         )}
         startInLoadingState={true}

@@ -34,12 +34,22 @@ const Gender = ({ navigation }: Props) => {
   }
 
   return (
-    <Layout className="justify-between px-10 py-5">
-      <CustomText size="large">I am a</CustomText>
+    <Layout
+      style={{
+        justifyContent: "space-between",
+        paddingHorizontal: 40,
+        paddingVertical: 20,
+      }}
+    >
+      <CustomText size="h2">I am a</CustomText>
       <View>
         <Button
           variant={gender === "male" ? "primary" : "outline"}
-          className="mx-auto mb-7"
+          btnStyle={{
+            marginRight: "auto",
+            marginLeft: "auto",
+            marginBottom: 28,
+          }}
           endIcon={gender === "male" ? <Svg.WhiteCheck /> : <Svg.DarkCheck />}
           onPress={() => setGender("male")}
         >
@@ -47,7 +57,10 @@ const Gender = ({ navigation }: Props) => {
         </Button>
         <Button
           variant={gender === "female" ? "primary" : "outline"}
-          className="mx-auto"
+          btnStyle={{
+            marginRight: "auto",
+            marginLeft: "auto",
+          }}
           endIcon={gender === "female" ? <Svg.WhiteCheck /> : <Svg.DarkCheck />}
           onPress={() => setGender("female")}
         >
@@ -56,7 +69,10 @@ const Gender = ({ navigation }: Props) => {
       </View>
       <Button
         variant="primary"
-        className="mx-auto"
+        btnStyle={{
+          marginRight: "auto",
+          marginLeft: "auto",
+        }}
         onPress={onSubmit}
         loading={isLoading}
       >

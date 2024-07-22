@@ -60,34 +60,56 @@ const SignIn = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center">
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <ActivityIndicator size={"large"} />
       </View>
     )
   }
   return (
-    <Layout>
-      <View className="flex-1 justify-center items-center w-full">
+    <Layout style={{ paddingHorizontal: 20 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <Logo width={108} height={100} />
       </View>
-      <View className="flex-[.2] w-full">
+      <View
+        style={{
+          flex: 0.2,
+          width: "100%",
+        }}
+      >
         <View>
           <Button
             variant="primary"
             startIcon={
               <Google width={30} height={30} onPress={signIn} fill="white" />
             }
-            textStyle={"text-white"}
             onPress={signIn}
           >
             Sign in with Google
           </Button>
         </View>
       </View>
-      <View className="flex-row justify-around flex-[.1]">
+      <View
+        style={{
+          flexDirection: "row",
+          flex: 0.1,
+          justifyContent: "space-around",
+        }}
+      >
         <Button
           variant="text"
-          textStyle={"text-primary"}
           onPress={() =>
             handleOpenWeb("https://okp980.github.io/weMeet/terms_and_condition")
           }
@@ -96,7 +118,6 @@ const SignIn = ({ navigation }: any) => {
         </Button>
         <Button
           variant="text"
-          textStyle={"text-primary"}
           onPress={() =>
             handleOpenWeb("https://okp980.github.io/weMeet/policy")
           }

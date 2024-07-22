@@ -20,6 +20,7 @@ import { showMessage } from "react-native-flash-message"
 import { useGetProfileQuery } from "../../services/modules/auth"
 import { useBioDataMutation } from "../../services/modules/onboarding"
 import { selectImage } from "@/helpers/utils"
+import { appColor } from "@/constants/color"
 
 type FormValues = {
   fullName: string
@@ -107,19 +108,50 @@ const BioData = ({ navigation }: any) => {
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Layout className="justify-between px-10 py-5">
-        <CustomText size="large">Profile details</CustomText>
-        <View className="mx-auto relative w-28 h-28 rounded-2xl">
+      <Layout
+        style={{
+          paddingTop: 20,
+          paddingBottom: 20,
+          paddingLeft: 40,
+          paddingRight: 40,
+          justifyContent: "space-between",
+        }}
+      >
+        <CustomText size="h2">Profile details</CustomText>
+        <View
+          style={{
+            marginLeft: "auto",
+            marginRight: "auto",
+            position: "relative",
+            borderRadius: 16,
+            width: 112,
+            height: 112,
+          }}
+        >
           <FastImage
             source={
               selectedImageURI || profile?.image
                 ? { uri: selectedImageURI ?? profile?.image }
                 : Img.UserPlaceholder
             }
-            className="w-28 h-28 rounded-2xl"
+            style={{ borderRadius: 16, width: 112, height: 112 }}
           />
           <TouchableOpacity onPress={handleSelectImage}>
-            <View className="bg-primary h-9 w-9 rounded-full justify-center items-center border border-white absolute right-[-10px] bottom-[-10px]">
+            <View
+              style={{
+                backgroundColor: appColor.PRIMARY,
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 36,
+                width: 36,
+                borderRadius: 36 / 2,
+                borderWidth: 1,
+                borderColor: appColor.WHITE,
+                right: -10,
+                bottom: -10,
+              }}
+            >
               <Svg.Camera />
             </View>
           </TouchableOpacity>
@@ -150,7 +182,12 @@ const BioData = ({ navigation }: any) => {
           />
           <Button
             variant="primary"
-            className="mx-auto w-full mt-5"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              width: "100%",
+              marginTop: 20,
+            }}
             loading={isLoadingBiodata}
             onPress={handleSubmit(onSubmit)}
           >
