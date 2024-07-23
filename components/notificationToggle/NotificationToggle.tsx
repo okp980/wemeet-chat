@@ -8,6 +8,7 @@ import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from "../../services/modules/auth"
+import { appColor } from "@/constants/color"
 
 type Props = {}
 
@@ -16,12 +17,28 @@ const NotificationToggle = (props: Props) => {
   const [update] = useUpdateProfileMutation()
 
   return (
-    <View className="mt-4 flex-row items-center ">
-      <View className="rounded bg-primary py-1 px-2">
+    <View
+      style={{
+        marginTop: 16,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          borderRadius: 4,
+          backgroundColor: appColor.PRIMARY,
+          paddingTop: 4,
+          paddingBottom: 4,
+          paddingLeft: 8,
+          paddingRight: 8,
+        }}
+      >
         <Svg.Send fill={"white"} width={15} />
       </View>
-      <View className="flex-1 pl-4">
-        <CustomText size="regular">Push Notification</CustomText>
+      <View style={{ flex: 1, paddingLeft: 16 }}>
+        <CustomText>Push Notification</CustomText>
       </View>
       <View>
         <Toggle
@@ -31,7 +48,7 @@ const NotificationToggle = (props: Props) => {
             width: 80,
             height: 35,
             radius: 20,
-            activeBackgroundColor: "#E94057",
+            activeBackgroundColor: appColor.PRIMARY,
             inActiveBackgroundColor: "#b4b8bb",
           }}
           thumbButton={{

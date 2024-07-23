@@ -4,6 +4,8 @@ import FastImage from "react-native-fast-image"
 import CustomText from "../customText/CustomText"
 import { MeetRequestResponse } from "../../types/meet"
 import socket from "../../services/socket"
+import { appColor } from "@/constants/color"
+import { ThemedView } from "../ThemedView"
 
 type Props = {
   meet: MeetRequestResponse
@@ -26,14 +28,48 @@ const ActivityCard = ({ meet, openMessage }: Props) => {
     }
   }, [socket])
   return (
-    <TouchableOpacity className="items-center gap-1" onPress={openMessage}>
-      <View className="h-16 w-16 rounded-full bg-primary items-center justify-center relative">
+    <TouchableOpacity
+      style={{ alignItems: "center", gap: 4 }}
+      onPress={openMessage}
+    >
+      <View
+        style={{
+          height: 64,
+          width: 64,
+          borderRadius: 64 / 2,
+          backgroundColor: appColor.PRIMARY,
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
         <FastImage
           source={{ uri: meet?.profile?.image }}
-          className="h-[60px] w-[60px] rounded-full border border-white"
+          style={{
+            height: 60,
+            width: 60,
+            borderRadius: 60 / 2,
+            borderWidth: 1,
+            borderColor: appColor.WHITE,
+          }}
         />
         {isOnline && (
-          <View className="absolute h-4 w-4 right-1 bottom-0 rounded-full bg-green-700 border-2 border-white" />
+          <ThemedView
+            lightColor={appColor.GREEN}
+            darkColor={appColor.GREEN}
+            style={{
+              height: 16,
+              width: 16,
+              borderRadius: 16 / 2,
+              backgroundColor: appColor.PRIMARY,
+              justifyContent: "center",
+              position: "absolute",
+              right: 4,
+              bottom: 0,
+
+              borderWidth: 2,
+              borderColor: appColor.WHITE,
+            }}
+          />
         )}
       </View>
       <CustomText size="small">{meet?.profile?.firstName}</CustomText>

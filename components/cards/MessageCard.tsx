@@ -3,6 +3,7 @@ import React from "react"
 import FastImage from "react-native-fast-image"
 import CustomText from "../customText/CustomText"
 import { IChat } from "../../types/chat"
+import { appColor } from "@/constants/color"
 
 type Props = {
   item: IChat
@@ -12,24 +13,57 @@ type Props = {
 const MessageCard = ({ item, openMessage }: Props) => {
   return (
     <TouchableOpacity
-      className="flex-row items-center gap-2"
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8,
+      }}
       onPress={openMessage}
     >
-      <View className="h-16 w-16 rounded-full bg-primary items-center justify-center">
+      <View
+        style={{
+          height: 64,
+          width: 64,
+          borderRadius: 64 / 2,
+          backgroundColor: "#primary",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <FastImage
           source={{ uri: item?.recipient?.profile?.image }}
-          className="h-[60px] w-[60px] rounded-full border border-white"
+          style={{
+            height: 60,
+            width: 60,
+            borderRadius: 60 / 2,
+            borderWidth: 1,
+            borderColor: appColor.WHITE,
+          }}
         />
       </View>
-      <View className="border-b border-[#E8E6EA] flex-row flex-1 py-2">
-        <View className="flex-1 justify-between">
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: "#E8E6EA",
+          display: "flex",
+          flexDirection: "row",
+          flex: 1,
+          paddingTop: 8,
+          paddingBottom: 8,
+        }}
+      >
+        <View style={{ flex: 1, justifyContent: "space-between" }}>
           <CustomText size="h3">
             {item?.recipient?.profile?.firstName}
           </CustomText>
           <CustomText size="small">{item?.messages[0]?.content}</CustomText>
         </View>
         <View />
-        <View className="justify-between items-end">
+        <View
+          style={{ justifyContent: "space-between", alignItems: "flex-end" }}
+        >
           {/* TODO: come back to this */}
           {/* <CustomText size="small">23 min</CustomText>
           <View className="h-5 w-5 rounded-full bg-primary items-center justify-center">

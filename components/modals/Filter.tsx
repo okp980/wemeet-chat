@@ -1,13 +1,13 @@
-import { View, Text } from "react-native"
+import { View } from "react-native"
 import React, { forwardRef, useState } from "react"
 import CustomBottomSheetModal from "../customBottomSheetModal/CustomBottomSheetModal"
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
 import CustomText from "../customText/CustomText"
 import Button from "../button/Button"
-import clsx from "clsx"
 import CustomSlider from "../customSlider/CustomSlider"
 import CustomRangeSlider from "../customRangeSlider/CustomRangeSlider"
+import { appColor } from "@/constants/color"
 
 type Props = {}
 type Ref = BottomSheetModal
@@ -24,56 +24,89 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
           <CustomText size="h1">Filter</CustomText>
           <Button
             variant="text"
-            textStyle="font-medium text-primary"
-            btnStyle="absolute top-1/3 right-4"
+            textStyle={{
+              fontFamily: "AirbnbCereal-Medium",
+              color: appColor.PRIMARY,
+            }}
+            btnStyle={{ position: "absolute", top: "33.33%", right: 16 }}
           >
             Clear
           </Button>
         </View>
         <View className="flex-1">
-          <CustomText size="h3" className="mt-10 mb-5">
+          <CustomText size="h3" style={{ marginTop: 40, marginBottom: 20 }}>
             Interested in
           </CustomText>
-          <View className="rounded-2xl border border-[#E8E6EA] flex-row mb-5">
+          <View
+            style={{
+              borderRadius: 16,
+              borderWidth: 1,
+              borderColor: "#E8E6EA",
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: 20,
+            }}
+          >
             <Button
               onPress={() => setGender("female")}
               variant="text"
-              btnStyle={clsx(
-                "flex-1 h-14 justify-center rounded-tl-2xl rounded-bl-2xl",
+              btnStyle={[
                 {
-                  ["bg-primary"]: gender === "female",
-                }
-              )}
-              textStyle={clsx("text-center", {
-                ["text-white"]: gender === "female",
-              })}
+                  flex: 1,
+                  height: 56,
+                  display: "flex",
+                  justifyContent: "center",
+                  borderTopLeftRadius: 16,
+                  borderBottomLeftRadius: 16,
+                },
+                gender === "female" && { backgroundColor: appColor.PRIMARY },
+              ]}
+              textStyle={[
+                { alignItems: "center" },
+                gender === "female" && { backgroundColor: appColor.WHITE },
+              ]}
             >
               Girls
             </Button>
             <Button
               onPress={() => setGender("male")}
               variant="text"
-              btnStyle={clsx("flex-1 h-14 justify-center ", {
-                ["bg-primary"]: gender === "male",
-              })}
-              textStyle={clsx("text-center", {
-                ["text-white"]: gender === "male",
-              })}
+              btnStyle={[
+                {
+                  flex: 1,
+                  height: 56,
+                  display: "flex",
+                  justifyContent: "center",
+                  borderTopLeftRadius: 16,
+                  borderBottomLeftRadius: 16,
+                },
+                gender === "male" && { backgroundColor: appColor.PRIMARY },
+              ]}
+              textStyle={[
+                { alignItems: "center" },
+                gender === "male" && { backgroundColor: appColor.WHITE },
+              ]}
             >
               Boys
             </Button>
             <Button
               onPress={() => setGender("both")}
               variant="text"
-              btnStyle={clsx(
-                "flex-1 h-14 justify-center rounded-tr-2xl rounded-br-2xl",
+              btnStyle={[
                 {
-                  ["bg-primary"]: gender === "both",
-                }
-              )}
-              textStyle={clsx("text-center", {
-                ["text-white"]: gender === "both",
-              })}
+                  flex: 1,
+                  height: 56,
+                  display: "flex",
+                  justifyContent: "center",
+                  borderTopLeftRadius: 16,
+                  borderBottomLeftRadius: 16,
+                },
+                gender === "both" && { backgroundColor: appColor.PRIMARY },
+              ]}
+              textStyle={[
+                { alignItems: "center" },
+                gender === "both" && { backgroundColor: appColor.WHITE },
+              ]}
             >
               Both
             </Button>
@@ -92,8 +125,8 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
             max={100}
           />
         </View>
-        <View className="py-2">
-          <Button variant="primary" className="mx-auto">
+        <View style={{ paddingVertical: 8 }}>
+          <Button variant="primary" style={{ marginHorizontal: "auto" }}>
             Continue
           </Button>
         </View>

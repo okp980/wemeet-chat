@@ -1,91 +1,91 @@
-import {View} from 'react-native';
-import React, {forwardRef, useEffect} from 'react';
-import {BottomSheetModal, useBottomSheetModal} from '@gorhom/bottom-sheet';
-import CustomBottomSheetModal from '../customBottomSheetModal/CustomBottomSheetModal';
+import { View } from "react-native"
+import React, { forwardRef, useEffect } from "react"
+import { BottomSheetModal, useBottomSheetModal } from "@gorhom/bottom-sheet"
+import CustomBottomSheetModal from "../customBottomSheetModal/CustomBottomSheetModal"
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
-} from '../../services/modules/auth';
-import {Controller, useForm} from 'react-hook-form';
-import CustomInput from '../customInput/CustomInput';
-import Button from '../button/Button';
-import {showMessage} from 'react-native-flash-message';
+} from "../../services/modules/auth"
+import { Controller, useForm } from "react-hook-form"
+import CustomInput from "../customInput/CustomInput"
+import Button from "../button/Button"
+import { showMessage } from "react-native-flash-message"
 
 type Props = {
-  type: 'name' | 'bio';
-};
-type Ref = BottomSheetModal;
+  type: "name" | "bio"
+}
+type Ref = BottomSheetModal
 
 type FormValues = {
-  fullName: string;
-  bio: string;
-};
-const EditProfile = forwardRef<Ref, Props>(({type}, ref) => {
-  const {data, isSuccess, error, isError} = useGetProfileQuery();
-  const [update, {isLoading: isLoadingSubmit}] = useUpdateProfileMutation();
-  const {dismiss} = useBottomSheetModal();
+  fullName: string
+  bio: string
+}
+const EditProfile = forwardRef<Ref, Props>(({ type }, ref) => {
+  const { data, isSuccess, error, isError } = useGetProfileQuery()
+  const [update, { isLoading: isLoadingSubmit }] = useUpdateProfileMutation()
+  const { dismiss } = useBottomSheetModal()
   const {
     control,
     reset,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      fullName: '',
-      bio: '',
+      fullName: "",
+      bio: "",
     },
-  });
+  })
 
   useEffect(() => {
     if (data) {
       reset({
-        fullName: data.name || '',
-        bio: data.bio || '',
-      });
+        fullName: data.name || "",
+        bio: data.bio || "",
+      })
     }
     if (error) {
       showMessage({
         message:
-          'data' in error
+          "data" in error
             ? error?.data?.message
-            : 'Error fetching profile information',
-        type: 'danger',
-      });
+            : "Error fetching profile information",
+        type: "danger",
+      })
     }
-  }, [isSuccess, data, isError, error]);
+  }, [isSuccess, data, isError, error])
 
   const onSubmit = async (data: FormValues) => {
-    let payload: any = {name: data.fullName};
-    if (type === 'bio') {
-      payload = {bio: data?.bio};
+    let payload: any = { name: data.fullName }
+    if (type === "bio") {
+      payload = { bio: data?.bio }
     }
     try {
-      await update(payload).unwrap();
-      if (type === 'bio') {
+      await update(payload).unwrap()
+      if (type === "bio") {
         showMessage({
-          message: 'Update bio successfully',
-          type: 'success',
-        });
+          message: "Update bio successfully",
+          type: "success",
+        })
       }
     } catch (error: any) {
       showMessage({
         message: `Error updating ${type}`,
-        type: 'danger',
-      });
+        type: "danger",
+      })
 
-      console.log(error);
+      console.log(error)
     } finally {
-      dismiss();
+      dismiss()
     }
-  };
+  }
   return (
-    <CustomBottomSheetModal ref={ref} points={['40%']}>
+    <CustomBottomSheetModal ref={ref} points={["40%"]}>
       <View className="flex-1">
-        {type === 'name' && (
+        {type === "name" && (
           <Controller
             control={control}
             name="fullName"
-            render={({field: {onChange, onBlur, value}}) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <CustomInput
                 label="Full name"
                 onBlur={onBlur}
@@ -97,11 +97,11 @@ const EditProfile = forwardRef<Ref, Props>(({type}, ref) => {
             )}
           />
         )}
-        {type === 'bio' && (
+        {type === "bio" && (
           <Controller
             control={control}
             name="bio"
-            render={({field: {onChange, onBlur, value}}) => (
+            render={({ field: { onChange, onBlur, value } }) => (
               <CustomInput
                 label="Bio"
                 onBlur={onBlur}
@@ -117,14 +117,20 @@ const EditProfile = forwardRef<Ref, Props>(({type}, ref) => {
         )}
         <Button
           variant="primary"
-          className="mx-auto w-full mt-5"
+          style={{
+            marginLeft: "auto",
+            marginRight: "auto",
+            width: "100%",
+            marginTop: 20,
+          }}
           loading={isLoadingSubmit}
-          onPress={handleSubmit(onSubmit)}>
+          onPress={handleSubmit(onSubmit)}
+        >
           {`Update ${type}`}
         </Button>
       </View>
     </CustomBottomSheetModal>
-  );
-});
+  )
+})
 
-export default EditProfile;
+export default EditProfile

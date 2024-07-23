@@ -7,11 +7,10 @@ import {
   Dimensions,
 } from "react-native"
 import React from "react"
-import { useNavigation } from "@react-navigation/native"
 import { LinearGradient } from "expo-linear-gradient"
 import FastImage from "react-native-fast-image"
 import { User } from "../../types/auth"
-import { CustomText } from "../customText/CustomText"
+import CustomText from "../customText/CustomText"
 
 type Props = {
   info: User
@@ -28,7 +27,7 @@ const SwipeCard = ({ info }: Props) => {
     //   onPress={() => navigate(Navigation.PROFILE_MODAL)}
     //   className="absolute h-[450px] z-[2] flex-1 justify-end rounded-2xl w-full max-w-[295px] ">
 
-    <View style={[styles.card]} className="rounded-2xl">
+    <View style={[styles.card]}>
       <FastImage
         source={{ uri: info?.profile?.image }}
         style={[styles.image, StyleSheet.absoluteFillObject]}
@@ -58,6 +57,7 @@ const styles = StyleSheet.create({
     height: cardHeight,
     // aspectRatio: 1 / 1.5,
     justifyContent: "flex-end",
+    borderRadius: 16,
   },
   image: {},
   info: {

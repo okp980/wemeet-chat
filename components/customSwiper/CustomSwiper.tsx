@@ -8,6 +8,7 @@ import Swiper, { SwiperProps } from "react-native-deck-swiper"
 import { useNavigation } from "@react-navigation/native"
 import { Navigation } from "../../constants"
 import { User } from "../../types/auth"
+import { appColor } from "@/constants/color"
 
 type Ref = Swiper<any>
 type Props = {} & SwiperProps<any>
@@ -48,13 +49,27 @@ const CustomSwiper = forwardRef<Ref, Props>((props, ref) => {
           element: (
             <LinearGradient
               colors={["transparent", "#E9405775"]}
-              className="rounded-2xl w-full flex-1 items-center justify-center"
+              style={{
+                borderRadius: 16,
+                width: "100%",
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               <View
-                className="h-20 w-20  rounded-full items-center justify-center"
-                style={styles.shadow}
+                style={[
+                  {
+                    height: 80,
+                    width: 80,
+                    borderRadius: 80 / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                  styles.shadow,
+                ]}
               >
-                <Svg.Times fill={"#E94057"} />
+                <Svg.Times fill={appColor.PRIMARY} />
               </View>
             </LinearGradient>
           ),
@@ -70,13 +85,27 @@ const CustomSwiper = forwardRef<Ref, Props>((props, ref) => {
           element: (
             <LinearGradient
               colors={["transparent", "#E9405775"]}
-              className="rounded-2xl w-full flex-1 items-center justify-center"
+              style={{
+                borderRadius: 16,
+                width: "100%",
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               <View
-                className="h-20 w-20  rounded-full items-center justify-center"
-                style={styles.shadow}
+                style={[
+                  {
+                    height: 80,
+                    width: 80,
+                    borderRadius: 80 / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                  styles.shadow,
+                ]}
               >
-                <Svg.Heart fill={"#E94057"} width={30} height={30} />
+                <Svg.Heart fill={appColor.PRIMARY} width={30} height={30} />
               </View>
             </LinearGradient>
           ),

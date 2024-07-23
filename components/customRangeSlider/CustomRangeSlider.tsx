@@ -28,10 +28,20 @@ const CustomRangeSlider = ({ title, min, max, format }: Props) => {
     setHigh(high)
   }, [])
   return (
-    <View className="mb-5">
-      <View className="flex-row items-center justify-between mb-1">
-        <CustomText size="h3">{title}</CustomText>
-        <CustomText size="medium">{format(low, high)}</CustomText>
+    <View style={{ marginBottom: 20 }}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 4,
+        }}
+      >
+        <CustomText size="h3" weight="bold">
+          {title}
+        </CustomText>
+        <CustomText weight="medium">{format(low, high)}</CustomText>
       </View>
       <RangeSlider
         // style={styles.slider}

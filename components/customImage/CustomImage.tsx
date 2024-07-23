@@ -16,7 +16,7 @@ const CustomImage = ({ source, ...restProps }: Props) => {
           : require("@/assets/images/user_placeholder.png")
       }
       {...restProps}
-      className="w-28 h-28 rounded-2xl"
+      style={{ width: 112, height: 112, borderRadius: 16 }}
     />
   )
 }

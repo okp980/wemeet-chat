@@ -1,48 +1,53 @@
-import { View, Text, TextInput, TextInputProps, ViewStyle } from "react-native"
+import { View, TextInput, TextInputProps, ViewStyle } from "react-native"
 import React from "react"
 import { FieldError } from "react-hook-form"
-import clsx from "clsx"
 
 import { useThemeColor } from "@/hooks/useThemeColor"
 import CustomText from "../customText/CustomText"
+import { appColor } from "@/constants/color"
+import { ThemedView } from "../ThemedView"
 
 type Props = {
   label?: string
   error?: string | FieldError
-  inputClassName?: string
-  contentContainerClassName?: string
+  inputStyle?: ViewStyle
+  contentContainerStyle?: ViewStyle
 } & TextInputProps
 
 const CustomInput = ({
   label,
   error,
-  inputClassName,
-  contentContainerClassName,
+  inputStyle,
+  contentContainerStyle,
   ...props
 }: Props) => {
   const iconColor = useThemeColor({}, "icon")
-  const backgroundColor = useThemeColor({}, "background")
 
   return (
-    <View className={clsx("mb-5", contentContainerClassName)}>
+    <View style={[{ marginBottom: 20 }, contentContainerStyle]}>
       <View
-        className={clsx(
-          "rounded-2xl border border-gray-400  px-3 py-5 relative ",
-          inputClassName
-        )}
+        style={[
+          {
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: appColor.BORDER,
+            paddingLeft: 12,
+            paddingRight: 12,
+            paddingTop: 20,
+            paddingBottom: 20,
+            position: "relative",
+          },
+          inputStyle,
+        ]}
       >
         {label && (
-          <View
-            className="absolute top-[-10px] left-6"
-            style={{ backgroundColor }}
-          >
+          <ThemedView style={{ position: "absolute", top: -10, left: 6 }}>
             <CustomText size="small">{label}</CustomText>
-          </View>
+          </ThemedView>
         )}
         <TextInput
           {...props}
-          className="p-0"
-          style={{ color: iconColor, fontSize: 16 }}
+          style={{ color: iconColor, fontSize: 14, padding: 0 }}
         />
       </View>
       {error && (

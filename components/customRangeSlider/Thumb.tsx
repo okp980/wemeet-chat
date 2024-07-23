@@ -1,16 +1,17 @@
-import React, {memo} from 'react';
-import {View, StyleSheet} from 'react-native';
+import { appColor } from "@/constants/color"
+import React, { memo } from "react"
+import { View, StyleSheet } from "react-native"
 
 type Props = {
-  name?: 'high' | 'low';
-};
+  name?: "high" | "low"
+}
 
-const THUMB_RADIUS_LOW = 12;
-const THUMB_RADIUS_HIGH = 16;
+const THUMB_RADIUS_LOW = 12
+const THUMB_RADIUS_HIGH = 16
 
-const Thumb = ({name}: Props) => {
-  return <View style={name === 'high' ? styles.rootHigh : styles.rootLow} />;
-};
+const Thumb = ({ name }: Props) => {
+  return <View style={name === "high" ? styles.rootHigh : styles.rootLow} />
+}
 
 const styles = StyleSheet.create({
   rootLow: {
@@ -18,17 +19,17 @@ const styles = StyleSheet.create({
     height: THUMB_RADIUS_LOW * 2,
     borderRadius: THUMB_RADIUS_LOW,
     borderWidth: 2,
-    borderColor: '#fff',
-    backgroundColor: '#E94057',
+    borderColor: "#fff",
+    backgroundColor: appColor.PRIMARY,
   },
   rootHigh: {
     width: THUMB_RADIUS_HIGH * 2,
     height: THUMB_RADIUS_HIGH * 2,
     borderRadius: THUMB_RADIUS_HIGH,
     borderWidth: 2,
-    borderColor: '#fff',
-    backgroundColor: '#E94057',
+    borderColor: "#fff",
+    backgroundColor: appColor.PRIMARY,
   },
-});
+})
 
-export default memo(Thumb);
+export default memo(Thumb)

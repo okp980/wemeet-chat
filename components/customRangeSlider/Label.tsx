@@ -1,29 +1,30 @@
-import React, {memo} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { appColor } from "@/constants/color"
+import React, { memo } from "react"
+import { View, Text, StyleSheet } from "react-native"
+import CustomText from "../customText/CustomText"
 
 type Props = {
-  text: string;
-};
+  text: string
+}
 
-const Label = ({text, ...restProps}: Props) => {
+const Label = ({ text, ...restProps }: Props) => {
   return (
     <View style={styles.root} {...restProps}>
-      <Text style={styles.text}>{text}</Text>
+      <CustomText style={styles.text}>{text}</CustomText>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 8,
-    backgroundColor: '#E94057',
+    backgroundColor: appColor.PRIMARY,
     borderRadius: 4,
   },
   text: {
-    fontSize: 16,
-    color: '#fff',
+    color: "#fff",
   },
-});
+})
 
-export default memo(Label);
+export default memo(Label)
