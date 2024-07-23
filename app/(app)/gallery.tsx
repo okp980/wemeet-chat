@@ -1,19 +1,29 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native"
+import { View, TouchableOpacity, FlatList } from "react-native"
 import React from "react"
 import { Svg } from "../../constants"
 import FastImage from "react-native-fast-image"
-import { Stack } from "expo-router"
+import { Stack, router } from "expo-router"
+import { Layout } from "@/components"
+import { appColor } from "@/constants/color"
 
 type Props = {}
 
 const Gallery = ({ navigation }: any) => {
   return (
-    <View className="flex-1  bg-white">
+    <Layout style={{ flex: 1 }}>
       <Stack.Screen options={{ presentation: "fullScreenModal" }} />
-      <View className="justify-center h-[125px] pl-7">
+      <View style={{ justifyContent: "center", height: 125, paddingLeft: 28 }}>
         <TouchableOpacity
-          className="border border-gray-200 rounded-2xl h-12 w-14 justify-center items-center"
-          onPress={navigation.goBack}
+          style={{
+            borderWidth: 1,
+            borderColor: appColor.BORDER,
+            borderRadius: 16,
+            height: 48,
+            width: 56,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={router.back}
         >
           <Svg.LeftCaret fill={"#fff"} />
         </TouchableOpacity>
@@ -22,10 +32,12 @@ const Gallery = ({ navigation }: any) => {
         source={{
           uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
         }}
-        className="flex-1 "
+        style={{ flex: 1 }}
       />
-      <View className="h-[125px]  justify-center items-center">
-        <View className="w-[80%] h-full">
+      <View
+        style={{ height: 125, justifyContent: "center", alignItems: "center" }}
+      >
+        <View style={{ width: "80%", height: "100%" }}>
           <FlatList
             data={["", "", "", "", ""]}
             contentContainerStyle={{
@@ -33,22 +45,36 @@ const Gallery = ({ navigation }: any) => {
               justifyContent: "center",
             }}
             renderItem={() => (
-              <TouchableOpacity className="border border-gray-200 rounded-2xl h-12 w-14 justify-center items-center">
+              <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderColor: appColor.BORDER,
+                  borderRadius: 16,
+                  height: 48,
+                  width: 56,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <FastImage
                   source={{
                     uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                   }}
-                  className=" h-16 w-16 rounded"
+                  style={{
+                    borderRadius: 4,
+                    height: 64,
+                    width: 64,
+                  }}
                 />
               </TouchableOpacity>
             )}
-            ItemSeparatorComponent={() => <View className="w-4" />}
+            ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
             horizontal
             showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
-    </View>
+    </Layout>
   )
 }
 

@@ -10,14 +10,15 @@ import { CustomInput, CustomText, Form } from "../../components"
 import { Svg } from "../../constants"
 import { Controller } from "react-hook-form"
 import * as Progress from "react-native-progress"
-import { Stack } from "expo-router"
+import { Stack, router } from "expo-router"
+import { appColor } from "@/constants/color"
 
 type Props = any
 type FormValues = {
   message: string
 }
 
-const Photo = ({ navigation }: Props) => {
+const Photo = () => {
   const { width } = useWindowDimensions()
   const onSubmit = (data: FormValues) => {
     console.log(data)
@@ -34,25 +35,47 @@ const Photo = ({ navigation }: Props) => {
         <Progress.Bar
           progress={0.2}
           width={width - 80}
-          color="#E94057"
+          color={appColor.PRIMARY}
           height={2}
           borderWidth={0}
           unfilledColor="white"
         />
-        <View className="flex-row items-center gap-2 mt-2">
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 8,
+            marginTop: 8,
+            alignItems: "center",
+          }}
+        >
           <FastImage
             source={{
               uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
             }}
-            className="h-14 w-14 rounded-full border border-white"
+            style={{
+              height: 56,
+              width: 56,
+              borderRadius: 56 / 2,
+              borderWidth: 1,
+              borderColor: appColor.WHITE,
+            }}
           />
 
-          <View className="flex-1 py-2">
+          <View style={{ flex: 1, paddingVertical: 8 }}>
             <CustomText size="h3">Annabelle</CustomText>
           </View>
           <TouchableOpacity
-            onPress={navigation.goBack}
-            className="h-10 w-10 border border-white bg-white/20 rounded-xl items-center justify-center"
+            onPress={router.back}
+            style={{
+              height: 40,
+              width: 40,
+              borderRadius: 40 / 2,
+              borderWidth: 1,
+              borderColor: appColor.WHITE,
+              backgroundColor: "#ffffff20",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             <Svg.Close />
           </TouchableOpacity>
@@ -62,7 +85,13 @@ const Photo = ({ navigation }: Props) => {
       <View>
         <Form<FormValues> onSubmit={onSubmit}>
           {({ handleSubmit, control, formState: { errors } }) => (
-            <View className="flex-row justify-center items-center ">
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Controller
                 control={control}
                 name="message"
@@ -83,8 +112,18 @@ const Photo = ({ navigation }: Props) => {
                 )}
               />
               <TouchableOpacity
-                onPress={navigation.goBack}
-                className="h-10 w-10 border ml-3 border-white bg-white/20 rounded-xl items-center justify-center"
+                onPress={router.back}
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: appColor.WHITE,
+                  backgroundColor: "#ffffff20",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: 12,
+                }}
               >
                 <Svg.Send height={18} fill={"#fff"} />
               </TouchableOpacity>

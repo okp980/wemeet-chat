@@ -8,9 +8,11 @@ import {
 } from "react-native"
 import React from "react"
 import { Svg } from "../../constants"
-import { Button, CustomText } from "../../components"
+import { Button, CustomText, Layout } from "../../components"
 import FastImage from "react-native-fast-image"
-import { Stack } from "expo-router"
+import { Link, Stack, router } from "expo-router"
+import { appColor } from "@/constants/color"
+import { ThemedView } from "@/components/ThemedView"
 
 type Props = {}
 
@@ -18,152 +20,261 @@ const interests = ["Travelling", "Books", "Music", "Dancing", "Modeling"]
 
 const Profile = ({ navigation }: any) => {
   return (
-    <ScrollView className="bg-white">
-      <Stack.Screen options={{ presentation: "fullScreenModal" }} />
-      <ImageBackground
-        source={{
-          uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        }}
-        resizeMode="cover"
-        style={{ height: 500 }}
-      >
-        <View className="pt-10 pl-7">
-          <TouchableOpacity
-            className="border border-gray-200 rounded-2xl h-12 w-14 justify-center items-center bg-white/20"
-            onPress={navigation.goBack}
-          >
-            <Svg.LeftCaret fill={"#fff"} />
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-      <View className="relative bg-white rounded-tl-[40px] rounded-tr-[40px] top-[-10%] px-10 pt-20">
-        <View className="flex-row justify-between items-center ">
-          <View>
-            <CustomText size="h2">Jessica Parker, 23</CustomText>
-            <CustomText size="small" className="font-light">
-              Proffesional model
-            </CustomText>
-          </View>
-          <Button
-            variant="outline"
-            className="m-0 h-14 w-14"
-            startIcon={<Svg.Send fill={"#E94057"} />}
-          />
-        </View>
-        <View className="mt-2">
-          <CustomText size="h3" className="mb-4">
-            Location
-          </CustomText>
-          <CustomText size="small">Chicago, IL United States</CustomText>
-        </View>
-        <View className="mt-2">
-          <CustomText size="h3" className="mb-4">
-            About
-          </CustomText>
-          <CustomText size="small">
-            My name is Jessica Parker and I enjoy meeting new people and finding
-            ways to help them have an uplifting experience. I enjoy reading..
-          </CustomText>
-          <Button
-            variant="text"
-            btnStyle="mt-2"
-            textStyle={"text-primary font-semibold"}
-          >
-            Read more
-          </Button>
-        </View>
-        <View className="mt-2">
-          <CustomText size="h3" className="mb-4">
-            Interests
-          </CustomText>
-          <View className="flex-row gap-1 flex-wrap justify-center">
-            {interests.map((interest, index) => (
-              <View key={index} className="w-1/4 border border-[#E8E6EA] p-2">
-                <CustomText size="small">{interest}</CustomText>
-              </View>
-            ))}
-          </View>
-        </View>
-        <View className="mt-2">
-          <View className="flex-row justify-between items-center">
-            <CustomText size="h3" className="mb-4">
-              Gallery
-            </CustomText>
-            <Button
-              onPress={() => navigation.navigate("GalleryModal", { user: "1" })}
-              variant="text"
-              textStyle="font-semibold text-xs text-primary"
+    <Layout>
+      <ScrollView style={{ flex: 1 }}>
+        <Stack.Screen options={{ presentation: "fullScreenModal" }} />
+        <ImageBackground
+          source={{
+            uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+          }}
+          resizeMode="cover"
+          style={{ height: 500 }}
+        >
+          <View style={{ paddingTop: 40, paddingLeft: 28 }}>
+            <TouchableOpacity
+              style={{
+                borderWidth: 1,
+                borderColor: appColor.BORDER,
+                borderRadius: 16,
+                height: 48,
+                width: 56,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#ffffff20",
+              }}
+              onPress={router.back}
             >
-              See all
+              <Svg.LeftCaret fill={"#fff"} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        <ThemedView
+          style={{
+            position: "relative",
+            borderTopLeftRadius: 40,
+            borderTopRightRadius: 40,
+            top: -10,
+            paddingHorizontal: 40,
+            paddingTop: 80,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <View>
+              <CustomText size="h2">Jessica Parker, 23</CustomText>
+              <CustomText size="small">Professional model</CustomText>
+            </View>
+            <Button
+              variant="outline"
+              style={{ margin: 0, height: 56, width: 56 }}
+              startIcon={<Svg.Send fill={appColor.PRIMARY} />}
+            />
+          </View>
+          <View style={{ marginTop: 8 }}>
+            <CustomText size="h3" style={{ marginBottom: 16 }}>
+              Location
+            </CustomText>
+            <CustomText size="small">Chicago, IL United States</CustomText>
+          </View>
+          <View style={{ marginTop: 8 }}>
+            <CustomText size="h3" style={{ marginBottom: 8 }}>
+              About
+            </CustomText>
+            <CustomText>
+              My name is Jessica Parker and I enjoy meeting new people and
+              finding ways to help them have an uplifting experience. I enjoy
+              reading..
+            </CustomText>
+            <Button variant="text" btnStyle={{ marginTop: 8 }}>
+              Read more
             </Button>
           </View>
-          <View className="flex-row gap-2 flex-wrap justify-center">
-            <FastImage
-              source={{
-                uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+          <View style={{ marginTop: 8 }}>
+            <CustomText size="h3" style={{ marginBottom: 8 }}>
+              Interests
+            </CustomText>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 4,
+                flexWrap: "wrap",
+                justifyContent: "center",
               }}
-              className="flex-1 h-[190px] rounded"
-            />
-            <FastImage
-              source={{
-                uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-              }}
-              className="flex-1 h-[190px] rounded"
-            />
-          </View>
-          <View className="flex-row gap-2 flex-wrap justify-center mt-1">
-            <FastImage
-              source={{
-                uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-              }}
-              className="flex-1 h-[122px] rounded"
-            />
-            <FastImage
-              source={{
-                uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-              }}
-              className="flex-1 h-[122px] rounded"
-            />
-            <FastImage
-              source={{
-                uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-              }}
-              className="flex-1 h-[122px] rounded"
-            />
-          </View>
-        </View>
-        <View className="absolute top-[-50px] left-0 right-0">
-          <View className="w-[80%] mx-auto flex-row items-center justify-around ">
-            <TouchableOpacity
-              className="h-16 w-16  rounded-full items-center justify-center"
-              style={styles.shadow}
             >
-              <Svg.Times height={30} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="h-24 w-24 rounded-full items-center justify-center"
-              style={[
-                styles.shadow,
-                {
-                  backgroundColor: "#E94057",
-                  shadowColor: "#E94057",
-                  shadowRadius: 10,
-                  shadowOpacity: 0.25,
-                },
-              ]}
-            >
-              <Svg.Heart height={30} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="h-16 w-16 rounded-full items-center justify-center"
-              style={styles.shadow}
-            >
-              <Svg.Star height={30} fill={"#8A2387"} />
-            </TouchableOpacity>
+              {interests.map((interest, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: "25%",
+                    borderWidth: 1,
+                    borderColor: "#E8E6EA",
+                    padding: 8,
+                  }}
+                >
+                  <CustomText size="small">{interest}</CustomText>
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
-      </View>
-    </ScrollView>
+          <View style={{ marginTop: 8 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <CustomText size="h3" style={{ marginBottom: 16 }}>
+                Gallery
+              </CustomText>
+
+              <Link href={{ pathname: "gallery", params: { user: "1" } }}>
+                <CustomText
+                  size="tiny"
+                  weight="medium"
+                  lightColor={appColor.PRIMARY}
+                  darkColor={appColor.PRIMARY}
+                >
+                  See all
+                </CustomText>
+              </Link>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 8,
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              <FastImage
+                source={{
+                  uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }}
+                style={{
+                  flex: 1,
+                  height: 196,
+                  borderRadius: 4,
+                }}
+              />
+              <FastImage
+                source={{
+                  uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }}
+                style={{
+                  flex: 1,
+                  height: 196,
+                  borderRadius: 4,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 8,
+                flexWrap: "wrap",
+                justifyContent: "center",
+                marginTop: 4,
+              }}
+            >
+              <FastImage
+                source={{
+                  uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }}
+                style={{
+                  flex: 1,
+                  height: 122,
+                  borderRadius: 4,
+                }}
+              />
+              <FastImage
+                source={{
+                  uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }}
+                style={{
+                  flex: 1,
+                  height: 122,
+                  borderRadius: 4,
+                }}
+              />
+              <FastImage
+                source={{
+                  uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                }}
+                style={{
+                  flex: 1,
+                  height: 122,
+                  borderRadius: 4,
+                }}
+              />
+            </View>
+          </View>
+          <View style={{ position: "absolute", top: -50, left: 0, right: 0 }}>
+            <View
+              style={{
+                width: "80%",
+                marginHorizontal: "auto",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={[
+                  {
+                    height: 64,
+                    width: 64,
+                    borderRadius: 64 / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                  styles.shadow,
+                ]}
+              >
+                <Svg.Times height={30} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.shadow,
+                  {
+                    backgroundColor: appColor.PRIMARY,
+                    shadowColor: appColor.PRIMARY,
+                    shadowRadius: 10,
+                    shadowOpacity: 0.25,
+                    height: 96,
+                    width: 96,
+                    borderRadius: 96 / 2,
+                  },
+                ]}
+              >
+                <Svg.Heart height={30} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.shadow,
+                  {
+                    backgroundColor: appColor.PRIMARY,
+                    shadowColor: appColor.PRIMARY,
+                    shadowRadius: 10,
+                    shadowOpacity: 0.25,
+                    height: 96,
+                    width: 96,
+                    borderRadius: 96 / 2,
+                  },
+                ]}
+              >
+                <Svg.Star height={30} fill={"#8A2387"} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ThemedView>
+      </ScrollView>
+    </Layout>
   )
 }
 

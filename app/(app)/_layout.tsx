@@ -1,8 +1,8 @@
+import LoadingView from "@/components/loadingView/LoadingView"
 import { useAuth } from "@/hooks"
 import { useGetProfileQuery } from "@/services/modules/auth"
 import { Redirect, Stack } from "expo-router"
 import { useEffect } from "react"
-import { ActivityIndicator, View } from "react-native"
 
 export default function AppLayout() {
   const { token, hasOnboardedProfile, compeleteProfileOnboarding } = useAuth()
@@ -15,12 +15,7 @@ export default function AppLayout() {
     }
   }, [isSuccess, profile])
 
-  if (isLoading)
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size={"large"} color={"#E94057"} />
-      </View>
-    )
+  if (isLoading) return <LoadingView />
   if (!token) {
     return <Redirect href="/sign-in" />
   }
