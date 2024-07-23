@@ -26,12 +26,12 @@ SplashScreen.preventAutoHideAsync()
 export default function RootLayout() {
   // const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    NotoSansBlack: require("../assets/fonts/NotoSans-Black.ttf"),
-    NotoSansBold: require("../assets/fonts/NotoSans-Black.ttf"),
-    NotoSansLight: require("../assets/fonts/NotoSans-Black.ttf"),
-    NotoSansMedium: require("../assets/fonts/NotoSans-Black.ttf"),
-    NotoSansRegular: require("../assets/fonts/NotoSans-Black.ttf"),
-    NotoSansSemiBold: require("../assets/fonts/NotoSans-Black.ttf"),
+    "AirbnbCereal-ExtraBold": require("@/assets/fonts/AirbnbCereal_W_Blk.otf"),
+    "AirbnbCereal-Bold": require("@/assets/fonts/AirbnbCereal_W_XBd.otf"),
+    "AirbnbCereal-SemiBold": require("@/assets/fonts/AirbnbCereal_W_Bd.otf"),
+    "AirbnbCereal-Medium": require("@/assets/fonts/AirbnbCereal_W_Md.otf"),
+    "AirbnbCereal-Regular": require("@/assets/fonts/AirbnbCereal_W_Bk.otf"),
+    "AirbnbCereal-Light": require("@/assets/fonts/AirbnbCereal_W_Lt.otf"),
   })
 
   useEffect(() => {
