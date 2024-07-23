@@ -10,19 +10,39 @@ import { CustomText, Layout, MatchCard } from "../../../components"
 import { useGetMeetRequestsQuery } from "../../../services/modules/meet-request"
 import { getMatchData } from "../../../helpers/utils"
 import { useNotification } from "../../../hooks"
+import { appColor } from "@/constants/color"
+import { ThemedView } from "@/components/ThemedView"
+import LoadingView from "@/components/loadingView/LoadingView"
+import ErrorView from "@/components/errorView/ErrorView"
 
 type Props = {}
 
 const Title = ({ title }: { title: string }) => (
-  <View className="flex-row items-center py-1 bg-white">
-    <View className="h-[1px] flex-1 bg-[#E8E6EA]" />
-    <View className="flex-1 items-center">
-      <CustomText size="small" className="capitalize">
+  <ThemedView
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: 4,
+    }}
+  >
+    <ThemedView
+      lightColor="#E8E6EA"
+      darkColor="#E8E6EA"
+      className="h-[1px] flex-1 bg-[#E8E6EA]"
+      style={{ height: 1, flex: 1 }}
+    />
+    <ThemedView style={{ flex: 1, alignItems: "center" }}>
+      <CustomText size="small" style={{ textTransform: "capitalize" }}>
         {title}
       </CustomText>
-    </View>
-    <View className="h-[1px] flex-1 bg-[#E8E6EA]" />
-  </View>
+    </ThemedView>
+    <ThemedView
+      lightColor="#E8E6EA"
+      darkColor="#E8E6EA"
+      className="h-[1px] flex-1 bg-[#E8E6EA]"
+      style={{ height: 1, flex: 1 }}
+    />
+  </ThemedView>
 )
 
 const RenderSection = ({ data }: { data: any }) => {
@@ -51,35 +71,17 @@ const Match = (props: Props) => {
     changeHasMatchRequest(false)
   }, [])
 
-  if (isLoading)
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" />
-      </View>
-    )
-  if (isError)
-    return (
-      <View className="flex-1 justify-center items-center">
-        <CustomText size="regular" className="bg-red-500 p-7" color="white">
-          {/* @ts-ignore */}
-          {error?.data?.message ?? "Error Fetching Data"}
-        </CustomText>
-      </View>
-    )
-  if (matches?.length === 0 && isSuccess) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <CustomText size="regular">No Likes yet</CustomText>
-      </View>
-    )
-  }
+  if (isLoading) return <LoadingView />
+  // @ts-ignore
+  if (isError) return <ErrorView message={error?.data?.message} />
+
   return (
     <Layout>
-      <CustomText size="regular">
+      <CustomText>
         This is a list of people who have liked you and your matches.
       </CustomText>
       <SectionList
-        className="mt-8"
+        style={{ marginTop: 32 }}
         sections={getMatchData(matches!)}
         keyExtractor={(item, index) => index.toString()}
         renderSectionHeader={({ section: { title } }) => (
@@ -87,6 +89,11 @@ const Match = (props: Props) => {
         )}
         renderItem={({ section: { data } }) => <RenderSection data={data} />}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <View>
+            <CustomText>No Likes yet</CustomText>
+          </View>
+        )}
       />
     </Layout>
   )

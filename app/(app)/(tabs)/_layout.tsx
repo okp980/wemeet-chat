@@ -1,5 +1,6 @@
 import { CustomText } from "@/components"
-import { Navigation, Svg } from "@/constants"
+import { Svg } from "@/constants"
+import { appColor } from "@/constants/color"
 import { useNotification } from "@/hooks"
 import { Tabs } from "expo-router"
 import React from "react"
@@ -16,36 +17,66 @@ export default function TabLayout() {
         tabBarIcon: ({ focused, color, size }) => {
           let icon
           switch ((route.name as string).toLowerCase()) {
-            case Navigation.HOME_SCREEN.toLowerCase():
-              icon = <Svg.Home fill={focused ? "#E94057" : "#ADAFBB"} />
+            case "index":
+              icon = <Svg.Home fill={focused ? appColor.PRIMARY : "#ADAFBB"} />
               break
-            case Navigation.MATCH_SCREEN.toLowerCase():
+            case "match":
               icon = (
                 <View>
                   <Svg.Heart
                     width={23}
-                    fill={focused ? "#E94057" : "#ADAFBB"}
+                    fill={focused ? appColor.PRIMARY : "#ADAFBB"}
                   />
                   {hasMatchRequest && (
-                    <View className="bg-[#E94057] h-3 w-3 justify-center items-center rounded-full absolute top-[6px] right-[-4px] border border-[#F3F3F3]" />
+                    <View
+                      style={{
+                        backgroundColor: appColor.PRIMARY,
+                        height: 12,
+                        width: 12,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: 12 / 6,
+                        position: "absolute",
+                        top: 6,
+                        right: -4,
+                        borderWidth: 1,
+                        borderColor: "##F3F3F3",
+                      }}
+                    />
                   )}
                 </View>
               )
               break
-            case Navigation.CHAT_SCREEN.toLowerCase():
+            case "chat":
               icon = (
                 <View>
-                  <Svg.Message fill={focused ? "#E94057" : "#ADAFBB"} />
-                  <View className="bg-[#E94057] h-5 w-5 justify-center items-center rounded-full absolute top-[-8px] right-[-10px] border border-[#F3F3F3]">
-                    <CustomText size="tiny" color="white">
+                  <Svg.Message fill={focused ? appColor.PRIMARY : "#ADAFBB"} />
+                  <View
+                    style={{
+                      backgroundColor: appColor.PRIMARY,
+                      height: 20,
+                      width: 20,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 12 / 6,
+                      position: "absolute",
+                      top: -8,
+                      right: -10,
+                      borderWidth: 1,
+                      borderColor: "##F3F3F3",
+                    }}
+                  >
+                    <CustomText size="tiny" style={{ color: "white" }}>
                       5
                     </CustomText>
                   </View>
                 </View>
               )
               break
-            case Navigation.PROFILE_SCREEN.toLowerCase():
-              icon = <Svg.Person fill={focused ? "#E94057" : "#ADAFBB"} />
+            case "profile":
+              icon = (
+                <Svg.Person fill={focused ? appColor.PRIMARY : "#ADAFBB"} />
+              )
               break
 
             default:
@@ -61,8 +92,8 @@ export default function TabLayout() {
           height: 80,
         },
         headerTitleStyle: {
-          fontSize: 30,
-          fontWeight: "700",
+          fontSize: 32,
+          fontFamily: "NotoSansBold",
         },
       })}
     >
@@ -71,7 +102,7 @@ export default function TabLayout() {
         options={{
           headerTitle: () => (
             <>
-              <CustomText size="h1" className="text-3xl">
+              <CustomText size="h4" className="text-3xl">
                 Discover
               </CustomText>
               <CustomText size="small">Chicago,ll.</CustomText>
@@ -79,14 +110,14 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen name={"match"} options={{ headerTitle: "Matches" }} />
+      <Tabs.Screen name={"match"} options={{ title: "Matches" }} />
       <Tabs.Screen
         name={"chat"}
         options={{
-          headerTitle: "Chats",
+          title: "Chats",
         }}
       />
-      <Tabs.Screen name={"profile"} options={{ headerTitle: "Profile" }} />
+      <Tabs.Screen name={"profile"} options={{ title: "Profile" }} />
     </Tabs>
   )
 }

@@ -113,7 +113,7 @@ const Chat = ({ navigation }: Props) => {
         </Form>
         <CustomText size="h3">Activities</CustomText>
         <FlatList
-          className="my-1 h-28"
+          style={{ marginVertical: 4, height: 112 }}
           data={matches?.data ?? []}
           renderItem={({ item }) => (
             <ActivityCard
@@ -129,16 +129,16 @@ const Chat = ({ navigation }: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           ListEmptyComponent={
-            <CustomText size="regular" className="text-center">
+            <CustomText style={{ textAlign: "center" }}>
               No Friends yet.
             </CustomText>
           }
         />
       </View>
-      <View className="flex-1">
+      <View style={{ flex: 1 }}>
         <CustomText size="h3">Messages</CustomText>
         <FlatList
-          className="my-2"
+          style={{ marginVertical: 8 }}
           data={chats}
           renderItem={({ item }) => (
             <MessageCard
@@ -147,10 +147,10 @@ const Chat = ({ navigation }: Props) => {
             />
           )}
           keyExtractor={(item, index) => (item.id + index).toString()}
-          ItemSeparatorComponent={() => <View className="mb-2" />}
+          ItemSeparatorComponent={() => <View style={{ marginBottom: 8 }} />}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
-            <CustomText size="regular" className="text-center">
+            <CustomText style={{ textAlign: "center" }}>
               No Chats yet.
             </CustomText>
           }

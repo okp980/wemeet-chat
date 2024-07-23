@@ -30,6 +30,7 @@ import { showMessage } from "react-native-flash-message"
 // import { GoogleSignin } from "@react-native-google-signin/google-signin"
 import { useAuth } from "../../../hooks"
 import { appColor } from "@/constants/color"
+import LoadingView from "@/components/loadingView/LoadingView"
 
 type Props = {}
 
@@ -139,13 +140,7 @@ const Profile = ({ navigation }: any) => {
     }
   }
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color={appColor.PRIMARY} />
-      </View>
-    )
-  }
+  if (isLoading) return <LoadingView />
 
   return (
     <Layout>

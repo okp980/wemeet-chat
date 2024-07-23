@@ -5,6 +5,7 @@ import { WebView } from "react-native-webview"
 import { Stack, router } from "expo-router"
 import { Svg } from "@/constants"
 import { appColor } from "@/constants/color"
+import LoadingView from "@/components/loadingView/LoadingView"
 
 type Props = {}
 
@@ -32,11 +33,7 @@ const WebScreen = ({ route }: any) => {
       <WebView
         source={{ uri: params?.url }}
         style={{ flex: 1 }}
-        renderLoading={() => (
-          <View style={{ flex: 1 }}>
-            <ActivityIndicator size="large" color={appColor.PRIMARY} />
-          </View>
-        )}
+        renderLoading={LoadingView}
         startInLoadingState={true}
       />
     </Layout>
