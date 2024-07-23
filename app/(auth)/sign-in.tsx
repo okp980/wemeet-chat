@@ -10,7 +10,10 @@ import { useSignInWithSocialMutation } from "../../services/modules/auth"
 import { SocialProvider } from "../../types/auth"
 import { useAuth } from "../../hooks"
 import { showMessage } from "react-native-flash-message"
-import { Button, Layout } from "../../components"
+import { Button, CustomText, Layout } from "../../components"
+import { Link } from "expo-router"
+import { appColor } from "@/constants/color"
+import LoadingView from "@/components/loadingView/LoadingView"
 
 const { Apple, Facebook, Google, Logo } = Svg
 
@@ -58,19 +61,7 @@ const SignIn = ({ navigation }: any) => {
     })
   }
 
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ActivityIndicator size={"large"} />
-      </View>
-    )
-  }
+  if (isLoading) return <LoadingView />
   return (
     <Layout style={{ paddingHorizontal: 20 }}>
       <View
@@ -108,22 +99,30 @@ const SignIn = ({ navigation }: any) => {
           justifyContent: "space-around",
         }}
       >
-        <Button
-          variant="text"
-          onPress={() =>
-            handleOpenWeb("https://okp980.github.io/weMeet/terms_and_condition")
-          }
+        <Link
+          href={{
+            pathname: "web",
+            params: {
+              url: "https://okp980.github.io/weMeet/terms_and_condition",
+            },
+          }}
         >
-          Terms of use
-        </Button>
-        <Button
-          variant="text"
-          onPress={() =>
-            handleOpenWeb("https://okp980.github.io/weMeet/policy")
-          }
+          <CustomText weight="medium" lightColor={appColor.PRIMARY}>
+            Terms of use
+          </CustomText>
+        </Link>
+        <Link
+          href={{
+            pathname: "web",
+            params: {
+              url: "https://okp980.github.io/weMeet/policy",
+            },
+          }}
         >
-          Privacy policy
-        </Button>
+          <CustomText weight="medium" lightColor={appColor.PRIMARY}>
+            Privacy policy
+          </CustomText>
+        </Link>
       </View>
     </Layout>
   )
