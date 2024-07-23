@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from "react"
 import {
   Bubble,
   GiftedChat,
@@ -6,15 +6,16 @@ import {
   InputToolbar,
   Send,
   IMessage,
-} from 'react-native-gifted-chat';
-import socket from '../../services/socket';
-import {IServerMessage} from '../../types/chat';
+} from "react-native-gifted-chat"
+import socket from "../../services/socket"
+import { IServerMessage } from "../../types/chat"
+import { appColor } from "@/constants/color"
 
 type Props = {
-  friendId: number | null;
-};
-const CustomChat = ({friendId}: Props) => {
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  friendId: number | null
+}
+const CustomChat = ({ friendId }: Props) => {
+  const [messages, setMessages] = useState<IMessage[]>([])
 
   const generateGiftedMsg = useCallback((mssg: IServerMessage): IMessage => {
     const {
@@ -23,64 +24,64 @@ const CustomChat = ({friendId}: Props) => {
       createdAt,
       user: {
         id: userId,
-        profile: {firstName},
+        profile: { firstName },
       },
-    } = mssg;
+    } = mssg
     return {
       _id: id,
       text: content,
       createdAt: new Date(createdAt),
-      user: {_id: userId, name: firstName},
+      user: { _id: userId, name: firstName },
       sent: true,
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
     const onMessage = (data: IServerMessage) => {
       setMessages((previousMessages: IMessage[]) =>
-        GiftedChat.append(previousMessages, [generateGiftedMsg(data)]),
-      );
-    };
+        GiftedChat.append(previousMessages, [generateGiftedMsg(data)])
+      )
+    }
     const onMessages = (data: IServerMessage[]) => {
-      const giftedMessages = data.map(message => generateGiftedMsg(message));
+      const giftedMessages = data.map((message) => generateGiftedMsg(message))
       setMessages((previousMessages: IMessage[]) =>
-        GiftedChat.append(previousMessages, giftedMessages),
-      );
-    };
-    socket.on('message', onMessage);
-    socket.emit('messages', {friendId}, onMessages);
+        GiftedChat.append(previousMessages, giftedMessages)
+      )
+    }
+    socket.on("message", onMessage)
+    socket.emit("messages", { friendId }, onMessages)
     return () => {
-      socket.off('message', onMessage);
-      socket.off('messages', onMessages);
-    };
-  }, [friendId, socket]);
+      socket.off("message", onMessage)
+      socket.off("messages", onMessages)
+    }
+  }, [friendId, socket])
 
   const onSend = useCallback(
     (messages: IMessage[] = []) => {
       if (friendId) {
-        socket.emit('createMessage', {content: messages[0].text, friendId});
+        socket.emit("createMessage", { content: messages[0].text, friendId })
       }
 
       setMessages((previousMessages: any) =>
-        GiftedChat.append(previousMessages, messages),
-      );
+        GiftedChat.append(previousMessages, messages)
+      )
     },
-    [friendId],
-  );
+    [friendId]
+  )
   return (
     <GiftedChat
       messages={messages}
-      onSend={messages => onSend(messages)}
+      onSend={(messages) => onSend(messages)}
       user={{
         _id: 1,
       }}
       renderAvatar={null}
-      renderBubble={props => (
+      renderBubble={(props) => (
         <Bubble
           {...props}
           wrapperStyle={{
             left: {
-              backgroundColor: '#E9405715',
+              backgroundColor: "#E9405715",
               borderBottomRightRadius: 15,
               borderBottomLeftRadius: 0,
               borderTopRightRadius: 15,
@@ -88,7 +89,7 @@ const CustomChat = ({friendId}: Props) => {
               padding: 10,
             },
             right: {
-              backgroundColor: '#F3F3F3',
+              backgroundColor: "#F3F3F3",
               borderBottomRightRadius: 0,
               borderBottomLeftRadius: 15,
               borderTopRightRadius: 15,
@@ -97,34 +98,34 @@ const CustomChat = ({friendId}: Props) => {
             },
           }}
           textStyle={{
-            right: {color: 'black', fontSize: 14},
-            left: {fontSize: 14},
+            right: { color: "black", fontSize: 14 },
+            left: { fontSize: 14 },
           }}
-          renderTime={props => (
-            <Time {...props} timeTextStyle={{right: {color: 'gray'}}} />
+          renderTime={(props) => (
+            <Time {...props} timeTextStyle={{ right: { color: "gray" } }} />
           )}
         />
       )}
-      renderInputToolbar={props => (
+      renderInputToolbar={(props) => (
         <InputToolbar
           {...props}
           containerStyle={{
             borderWidth: 1,
             borderRadius: 15,
-            borderColor: '#F3F3F3',
-            borderTopColor: '#F3F3F3',
+            borderColor: "#F3F3F3",
+            borderTopColor: "#F3F3F3",
           }}
-          renderSend={props => (
+          renderSend={(props) => (
             <Send
               {...props}
-              containerStyle={{borderWidth: 0}}
-              textStyle={{color: '#E94057'}}
+              containerStyle={{ borderWidth: 0 }}
+              textStyle={{ color: appColor.PRIMARY }}
             />
           )}
         />
       )}
     />
-  );
-};
+  )
+}
 
-export default CustomChat;
+export default CustomChat

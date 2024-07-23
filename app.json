@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "wemeet",
-    "slug": "wemeet",
+    "name": "wemeet chat",
+    "slug": "wemeet_chat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,16 +14,25 @@
     },
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.emmanuelokp.wemeet.chat",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
       }
     },
     "android": {
+      "package": "com.emmanuelokp.wemeet.chat",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#BEC1F4"
       },
-      "permissions": ["android.permission.POST_NOTIFICATIONS"]
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +41,7 @@
     },
     "plugins": [
       "expo-router",
+      "@react-native-google-signin/google-signin",
       [
         "expo-media-library",
         {
@@ -43,6 +53,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "da76208f-5b39-49be-ab82-4448303e9b02"
+      }
+    },
+    "owner": "okp980"
   }
 }

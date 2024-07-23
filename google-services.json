@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "445986193855",
+    "project_id": "wemeet-1701783793326",
+    "storage_bucket": "wemeet-1701783793326.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445986193855:android:d281c98880b0ea7e94e10a",
+        "android_client_info": {
+          "package_name": "com.emmanuelokp.wemeet.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445986193855-bcb87d7m354vgd03h59a942umt8m4c19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvy2Fd_9tRfjPjycDUY6xEcH88y8J4fI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445986193855-bcb87d7m354vgd03h59a942umt8m4c19.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "445986193855-kvt8luph79s3esfut87ati153nilqdtg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.emmanuelokp.wemeet.chat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

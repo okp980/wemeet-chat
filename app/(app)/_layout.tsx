@@ -17,7 +17,7 @@ export default function AppLayout() {
 
   if (isLoading) return <LoadingView />
   if (!token) {
-    return <Redirect href="/sign-in" />
+    return <Redirect href="/welcome" />
   }
   // @ts-ignore
   if (!profile?.profile?.passion || !hasOnboardedProfile) {

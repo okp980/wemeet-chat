@@ -6,13 +6,12 @@ const AuthLayout = () => {
   const { hasBeenWelcome } = useAuth()
   return (
     <Stack
-      initialRouteName={
-        hasBeenWelcome ? Navigation.SIGN_IN_SCREEN : Navigation.WELCOME_SCREEN
-      }
+      initialRouteName={hasBeenWelcome ? "sign-in" : "welcome"}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="welcome" />
       <Stack.Screen name="sign-in" />
+      <Stack.Screen name="web" />
     </Stack>
   )
 }

@@ -5,14 +5,15 @@ import { useAuth } from "../../hooks"
 import { Navigation } from "../../constants"
 import { appColor } from "@/constants/color"
 import { useThemeColor } from "@/hooks/useThemeColor"
+import { router } from "expo-router"
 
-const Welcome = ({ navigation }: any) => {
+const Welcome = () => {
   const { welcome } = useAuth()
   const background = useThemeColor({}, "background")
 
   const handleDone = () => {
     welcome()
-    navigation.navigate(Navigation.SIGN_IN_SCREEN)
+    router.navigate("sign-in")
   }
   return (
     <OnboardFlow
@@ -23,15 +24,14 @@ const Welcome = ({ navigation }: any) => {
       paginationSelectedColor={appColor.PRIMARY}
       style={{ backgroundColor: background }}
       titleStyle={{
-        fontWeight: "600",
         fontSize: 24,
-        fontFamily: "NotoSans-Bold",
+        fontFamily: "AirbnbCereal-Bold",
         color: appColor.PRIMARY,
       }}
       subtitleStyle={{
         fontWeight: "400",
         fontSize: 16,
-        fontFamily: "NotoSans-Regular",
+        fontFamily: "AirbnbCereal-Regular",
         color: appColor.BLACK100,
       }}
       onDone={handleDone}
