@@ -1,9 +1,10 @@
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native"
 import React from "react"
-// import {
-//   GoogleSignin,
-//   statusCodes,
-// } from "@react-native-google-signin/google-signin"
+import {
+  GoogleSignin,
+  isErrorWithCode,
+  statusCodes,
+} from "@react-native-google-signin/google-signin"
 
 import { Navigation, Svg } from "../../constants"
 import { useSignInWithSocialMutation } from "../../services/modules/auth"
@@ -17,48 +18,44 @@ import LoadingView from "@/components/loadingView/LoadingView"
 
 const { Apple, Facebook, Google, Logo } = Svg
 
-const SignIn = ({ navigation }: any) => {
+GoogleSignin.configure({
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+  offlineAccess: true,
+})
+
+const SignIn = () => {
   const [signInWithSocial, { isLoading }] = useSignInWithSocialMutation()
   const { authenticateUser, fcmToken } = useAuth()
-  //   const signIn = async () => {
-  //     try {
-  //       // await GoogleSignin.hasPlayServices();
-  //     //   const userInfo = await GoogleSignin.signIn()
-  //       const response = await signInWithSocial({
-  //         token: userInfo.idToken!,
-  //         provider: SocialProvider.GOOGLE,
-  //         fcmToken,
-  //       }).unwrap()
-  //       authenticateUser(response.access_token)
-  //     } catch (error: any) {
-  //       console.log("error", error)
-
-  //       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-  //         // user cancelled the login flow
-  //         console.log("cancelled", error)
-  //       } else if (error.code === statusCodes.IN_PROGRESS) {
-  //         // operation (e.g. sign in) is in progress already
-  //         console.log("in progress", error)
-  //       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-  //         // play services not available or outdated
-  //         console.log("not available", error)
-  //       } else {
-  //         // some other error happened
-  //         console.log("wild card", error)
-  //         showMessage({
-  //           type: "danger",
-  //           message: error?.data?.error ?? "Error signing in with Google",
-  //         })
-  //       }
-  //     }
-  //   }
-
-  const signIn = () => {}
-
-  const handleOpenWeb = (url: string) => {
-    navigation.navigate(Navigation.WEB_SCREEN, {
-      url,
-    })
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices()
+      const userInfo = await GoogleSignin.signIn()
+      const response = await signInWithSocial({
+        token: userInfo.idToken!,
+        provider: SocialProvider.GOOGLE,
+        fcmToken: "",
+      }).unwrap()
+      authenticateUser(response.access_token)
+    } catch (error: any) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.SIGN_IN_CANCELLED:
+            // user cancelled the login flow
+            break
+          case statusCodes.IN_PROGRESS:
+            // operation (eg. sign in) already in progress
+            break
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            // play services not available or outdated
+            break
+          default:
+          // some other error happened
+        }
+      } else {
+        // an error that's not related to google sign in occurred
+      }
+    }
   }
 
   if (isLoading) return <LoadingView />
