@@ -1,24 +1,22 @@
-import React from "react"
-import { OnboardHeader } from "../../components"
-import { OnboardHeaderWithOutGoBack } from "../../components/onboardHeader/OnboardHeader"
-import { Navigation } from "../../constants"
-import { Redirect, Stack } from "expo-router"
-import { useAuth } from "@/hooks"
+import React from "react";
+import { OnboardHeader } from "../../components";
+import { OnboardHeaderWithOutGoBack } from "../../components/onboardHeader/OnboardHeader";
+import { Navigation } from "../../constants";
+import { Redirect, Stack } from "expo-router";
+import { useAuth } from "@/hooks";
 
 const Profilelayout = () => {
-  const { token } = useAuth()
+  const { token } = useAuth();
 
   if (!token) {
-    return <Redirect href="/sign-in" />
+    return <Redirect href="/sign-in" />;
   }
   return (
     <Stack initialRouteName={Navigation.BIO_DATA_SCREEN}>
       <Stack.Screen
         name="bio"
         options={{
-          header: () => (
-            <OnboardHeaderWithOutGoBack next={Navigation.GENDER_SCREEN} />
-          ),
+          header: () => <OnboardHeaderWithOutGoBack next={"gender"} />,
         }}
       />
       <Stack.Screen
@@ -34,7 +32,7 @@ const Profilelayout = () => {
         }}
       />
     </Stack>
-  )
-}
+  );
+};
 
-export default Profilelayout
+export default Profilelayout;

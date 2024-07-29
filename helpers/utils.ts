@@ -1,31 +1,31 @@
-import { Platform } from "react-native"
+import { Platform } from "react-native";
 // import messaging from '@react-native-firebase/messaging';
-import { format, isToday, isYesterday } from "date-fns"
+import { format, isToday, isYesterday } from "date-fns";
 import {
   MatchRequestData,
   MeetRequestResponse,
   MeetResponse,
-} from "../types/meet"
-import * as ImagePicker from "expo-image-picker"
-import { showMessage } from "react-native-flash-message"
+} from "../types/meet";
+import * as ImagePicker from "expo-image-picker";
+import { showMessage } from "react-native-flash-message";
 
 export const getTwoDimensionalArray = <T>(singleArray: T[]): T[][] => {
   return singleArray.reduce((prev: T[][], curr: T) => {
     if (prev.length > 1) {
-      const lastIndex = prev.length - 1
-      const lastItem = prev[lastIndex]
+      const lastIndex = prev.length - 1;
+      const lastItem = prev[lastIndex];
 
       if (lastItem.length === 2) {
-        return [...prev, [curr]]
+        return [...prev, [curr]];
       }
 
-      prev[lastIndex] = [...lastItem, curr]
-      return prev
+      prev[lastIndex] = [...lastItem, curr];
+      return prev;
     }
 
-    return [[curr]]
-  }, [])
-}
+    return [[curr]];
+  }, []);
+};
 
 // export const androidNotificationPermission = async () => {
 //   return await request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS);
@@ -48,28 +48,28 @@ export const getTwoDimensionalArray = <T>(singleArray: T[]): T[][] => {
 
 export const getMatchTimeline = (date: string) => {
   if (isToday(new Date(date))) {
-    return "today"
+    return "today";
   }
   if (isYesterday(new Date(date))) {
-    return "yesterday"
+    return "yesterday";
   }
 
-  return format(new Date(date), "dd-MM-yyyy")
-}
+  return format(new Date(date), "dd-MM-yyyy");
+};
 
 export const getMatchData = (data: MeetRequestResponse[]): MatchRequestData => {
-  return data.reduce((prev: MatchRequestData, { createdAt, ...curr }) => {
+  return data?.reduce((prev: MatchRequestData, { createdAt, ...curr }) => {
     if (prev.some((item) => item.title === getMatchTimeline(createdAt))) {
       const index = prev.findIndex(
         (item) => item.title === getMatchTimeline(createdAt)
-      )
+      );
       return [
         ...prev,
         {
           title: prev[index].title,
           data: [...prev[index].data, { createdAt, ...curr }],
         },
-      ]
+      ];
     }
     return [
       ...prev,
@@ -77,9 +77,9 @@ export const getMatchData = (data: MeetRequestResponse[]): MatchRequestData => {
         title: getMatchTimeline(createdAt),
         data: [{ createdAt, ...curr }],
       },
-    ]
-  }, [])
-}
+    ];
+  }, []);
+};
 
 export const selectImage = async () => {
   try {
@@ -89,27 +89,27 @@ export const selectImage = async () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    })
+    });
     if (response.assets) {
       // @ts-ignore
       if (response.assets[0].fileSize > 1024 * 1024 * 5) {
         showMessage({
           message: "Image size cannot exceed 10MB",
           type: "danger",
-        })
+        });
       }
 
       if (Platform.OS === "android") {
         // @ts-ignore
-        return response.assets[0].uri
+        return response.assets[0].uri;
       }
       // @ts-ignore
-      return response.assets[0].uri.replace("file://", "")
+      return response.assets[0].uri.replace("file://", "");
     }
   } catch (error: any) {
-    console.log(error)
+    console.log(error);
     if (typeof error === "string") {
-      showMessage({ message: error, type: "danger" })
+      showMessage({ message: error, type: "danger" });
     }
   }
-}
+};

@@ -1,18 +1,18 @@
-import { View, TextInput, TextInputProps, ViewStyle } from "react-native"
-import React from "react"
-import { FieldError } from "react-hook-form"
+import { View, TextInput, TextInputProps, ViewStyle } from "react-native";
+import React from "react";
+import { FieldError } from "react-hook-form";
 
-import { useThemeColor } from "@/hooks/useThemeColor"
-import CustomText from "../customText/CustomText"
-import { appColor } from "@/constants/color"
-import { ThemedView } from "../ThemedView"
+import { useThemeColor } from "@/hooks/useThemeColor";
+import CustomText from "../customText/CustomText";
+import { appColor } from "@/constants/color";
+import { ThemedView } from "../ThemedView";
 
 type Props = {
-  label?: string
-  error?: string | FieldError
-  inputStyle?: ViewStyle
-  contentContainerStyle?: ViewStyle
-} & TextInputProps
+  label?: string;
+  error?: string | FieldError;
+  inputStyle?: ViewStyle;
+  contentContainerStyle?: ViewStyle;
+} & TextInputProps;
 
 const CustomInput = ({
   label,
@@ -21,7 +21,7 @@ const CustomInput = ({
   contentContainerStyle,
   ...props
 }: Props) => {
-  const iconColor = useThemeColor({}, "icon")
+  const iconColor = useThemeColor({}, "icon");
 
   return (
     <View style={[{ marginBottom: 20 }, contentContainerStyle]}>
@@ -41,7 +41,14 @@ const CustomInput = ({
         ]}
       >
         {label && (
-          <ThemedView style={{ position: "absolute", top: -10, left: 6 }}>
+          <ThemedView
+            style={{
+              position: "absolute",
+              top: -8,
+              left: 15,
+              paddingHorizontal: 10,
+            }}
+          >
             <CustomText size="small">{label}</CustomText>
           </ThemedView>
         )}
@@ -56,7 +63,7 @@ const CustomInput = ({
         </CustomText>
       )}
     </View>
-  )
-}
+  );
+};
 
-export default CustomInput
+export default CustomInput;

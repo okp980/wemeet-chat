@@ -4,18 +4,19 @@ import {
   SectionList,
   FlatList,
   ActivityIndicator,
-} from "react-native"
-import React, { useEffect } from "react"
-import { CustomText, Layout, MatchCard } from "../../../components"
-import { useGetMeetRequestsQuery } from "../../../services/modules/meet-request"
-import { getMatchData } from "../../../helpers/utils"
-import { useNotification } from "../../../hooks"
-import { appColor } from "@/constants/color"
-import { ThemedView } from "@/components/ThemedView"
-import LoadingView from "@/components/loadingView/LoadingView"
-import ErrorView from "@/components/errorView/ErrorView"
+  RefreshControl,
+} from "react-native";
+import React, { useEffect } from "react";
+import { CustomText, Layout, MatchCard } from "../../../components";
+import { useGetMeetRequestsQuery } from "../../../services/modules/meet-request";
+import { getMatchData } from "../../../helpers/utils";
+import { useNotification } from "../../../hooks";
+import { appColor } from "@/constants/color";
+import { ThemedView } from "@/components/ThemedView";
+import LoadingView from "@/components/loadingView/LoadingView";
+import ErrorView from "@/components/errorView/ErrorView";
 
-type Props = {}
+type Props = {};
 
 const Title = ({ title }: { title: string }) => (
   <ThemedView
@@ -43,7 +44,7 @@ const Title = ({ title }: { title: string }) => (
       style={{ height: 1, flex: 1 }}
     />
   </ThemedView>
-)
+);
 
 const RenderSection = ({ data }: { data: any }) => {
   return (
@@ -54,35 +55,42 @@ const RenderSection = ({ data }: { data: any }) => {
       keyExtractor={(item, index) => item.name + index}
       showsVerticalScrollIndicator={false}
     />
-  )
-}
+  );
+};
 
 const Match = (props: Props) => {
-  const { changeHasMatchRequest } = useNotification()
+  const { changeHasMatchRequest } = useNotification();
   const {
     data: matches,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetMeetRequestsQuery({ status: "pending" })
+    refetch,
+  } = useGetMeetRequestsQuery({ status: "pending" });
 
   useEffect(() => {
-    changeHasMatchRequest(false)
-  }, [])
+    changeHasMatchRequest(false);
+  }, []);
 
-  if (isLoading) return <LoadingView />
+  if (isLoading) return <LoadingView />;
   // @ts-ignore
-  if (isError) return <ErrorView message={error?.data?.message} />
+  if (isError) return <ErrorView message={error?.data?.message} />;
 
   return (
-    <Layout>
+    <Layout style={{ paddingHorizontal: 20, paddingTop: 20 }}>
       <CustomText>
         This is a list of people who have liked you and your matches.
       </CustomText>
       <SectionList
         style={{ marginTop: 32 }}
-        sections={getMatchData(matches!)}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          flex: 1,
+        }}
+        sections={getMatchData(matches?.data!) ?? []}
         keyExtractor={(item, index) => index.toString()}
         renderSectionHeader={({ section: { title } }) => (
           <Title title={title} />
@@ -94,9 +102,11 @@ const Match = (props: Props) => {
             <CustomText>No Likes yet</CustomText>
           </View>
         )}
+        refreshing={isLoading}
+        onRefresh={refetch}
       />
     </Layout>
-  )
-}
+  );
+};
 
-export default Match
+export default Match;

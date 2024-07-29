@@ -1,27 +1,36 @@
-import { View } from "react-native"
-import React, { forwardRef, useState } from "react"
-import CustomBottomSheetModal from "../customBottomSheetModal/CustomBottomSheetModal"
-import { BottomSheetModal } from "@gorhom/bottom-sheet"
+import { View } from "react-native";
+import React, { forwardRef, useState } from "react";
+import CustomBottomSheetModal from "../customBottomSheetModal/CustomBottomSheetModal";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-import CustomText from "../customText/CustomText"
-import Button from "../button/Button"
-import CustomSlider from "../customSlider/CustomSlider"
-import CustomRangeSlider from "../customRangeSlider/CustomRangeSlider"
-import { appColor } from "@/constants/color"
+import CustomText from "../customText/CustomText";
+import Button from "../button/Button";
+import CustomSlider from "../customSlider/CustomSlider";
+import CustomRangeSlider from "../customRangeSlider/CustomRangeSlider";
+import { appColor } from "@/constants/color";
 
-type Props = {}
-type Ref = BottomSheetModal
+type Props = {};
+type Ref = BottomSheetModal;
 
 const Filter = forwardRef<Ref, Props>((props, ref) => {
-  const [gender, setGender] = useState<"male" | "female" | "both">("male")
+  const [gender, setGender] = useState<"male" | "female" | "both">("male");
 
-  const formatDistance = (value: string) => `${value}km`
-  const formatAgeRange = (min: number, max: number) => `${min}-${max}`
+  const formatDistance = (value: string) => `${value}km`;
+  const formatAgeRange = (min: number, max: number) => `${min}-${max}`;
   return (
     <CustomBottomSheetModal ref={ref} points={["80%"]}>
-      <View className="flex-1">
-        <View className="flex-row items-center justify-center relative ">
-          <CustomText size="h1">Filter</CustomText>
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            position: "relative",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CustomText size="h5" weight="medium">
+            Filter
+          </CustomText>
           <Button
             variant="text"
             textStyle={{
@@ -33,8 +42,8 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
             Clear
           </Button>
         </View>
-        <View className="flex-1">
-          <CustomText size="h3" style={{ marginTop: 40, marginBottom: 20 }}>
+        <View style={{ flex: 1 }}>
+          <CustomText size="h5" style={{ marginTop: 40, marginBottom: 20 }}>
             Interested in
           </CustomText>
           <View
@@ -42,7 +51,6 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
               borderRadius: 16,
               borderWidth: 1,
               borderColor: "#E8E6EA",
-              display: "flex",
               flexDirection: "row",
               marginBottom: 20,
             }}
@@ -54,12 +62,13 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
                 {
                   flex: 1,
                   height: 56,
-                  display: "flex",
                   justifyContent: "center",
                   borderTopLeftRadius: 16,
                   borderBottomLeftRadius: 16,
                 },
-                gender === "female" && { backgroundColor: appColor.PRIMARY },
+                gender === "female" && {
+                  backgroundColor: appColor.PRIMARY,
+                },
               ]}
               textStyle={[
                 { alignItems: "center" },
@@ -77,8 +86,6 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
                   height: 56,
                   display: "flex",
                   justifyContent: "center",
-                  borderTopLeftRadius: 16,
-                  borderBottomLeftRadius: 16,
                 },
                 gender === "male" && { backgroundColor: appColor.PRIMARY },
               ]}
@@ -98,10 +105,12 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
                   height: 56,
                   display: "flex",
                   justifyContent: "center",
-                  borderTopLeftRadius: 16,
-                  borderBottomLeftRadius: 16,
+                  borderTopRightRadius: 16,
+                  borderBottomRightRadius: 16,
                 },
-                gender === "both" && { backgroundColor: appColor.PRIMARY },
+                gender === "both" && {
+                  backgroundColor: appColor.PRIMARY,
+                },
               ]}
               textStyle={[
                 { alignItems: "center" },
@@ -132,7 +141,7 @@ const Filter = forwardRef<Ref, Props>((props, ref) => {
         </View>
       </View>
     </CustomBottomSheetModal>
-  )
-})
+  );
+});
 
-export default Filter
+export default Filter;

@@ -1,5 +1,5 @@
-import { Text, type TextProps, StyleSheet } from "react-native"
-import { useThemeColor } from "@/hooks/useThemeColor"
+import { Text, type TextProps, StyleSheet } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type FontSize =
   | "h1"
@@ -11,16 +11,16 @@ type FontSize =
   | "b1"
   | "b2"
   | "small"
-  | "tiny"
-type FontWeight = "bold" | "medium" | "regular"
+  | "tiny";
+type FontWeight = "bold" | "semiBold" | "medium" | "regular";
 
 export type CustomTextProps = TextProps & {
-  lightColor?: string
-  darkColor?: string
-  size?: FontSize
-  weight?: FontWeight
-  values?: any
-}
+  lightColor?: string;
+  darkColor?: string;
+  size?: FontSize;
+  weight?: FontWeight;
+  values?: any;
+};
 
 export default function CustomText({
   style,
@@ -32,7 +32,7 @@ export default function CustomText({
   values,
   ...rest
 }: CustomTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text")
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
     <Text
@@ -51,6 +51,7 @@ export default function CustomText({
         size === "tiny" ? styles.tiny : undefined,
 
         weight === "bold" ? styles.bold : undefined,
+        weight === "semiBold" ? styles.semiBold : undefined,
         weight === "medium" ? styles.medium : undefined,
         weight === "regular" ? styles.regular : undefined,
         style,
@@ -59,7 +60,7 @@ export default function CustomText({
     >
       {children}
     </Text>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -106,10 +107,13 @@ const styles = StyleSheet.create({
   bold: {
     fontFamily: "AirbnbCereal-SemiBold",
   },
+  semiBold: {
+    fontFamily: "AirbnbCereal-SemiBold",
+  },
   medium: {
     fontFamily: "AirbnbCereal-Medium",
   },
   regular: {
     fontFamily: "AirbnbCereal-Regular",
   },
-})
+});

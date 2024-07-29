@@ -4,11 +4,12 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-} from "react-native"
-import React, { useEffect, useRef, useState } from "react"
+  RefreshControl,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 // import Share from "react-native-share"
-import * as Sharing from "expo-sharing"
-import * as StoreReview from "expo-store-review"
+import * as Sharing from "expo-sharing";
+import * as StoreReview from "expo-store-review";
 
 import {
   CustomText,
@@ -17,29 +18,31 @@ import {
   NotificationToggle,
   PassionList,
   ProfileItem,
-} from "../../../components"
-import FastImage from "react-native-fast-image"
-import { Svg, Navigation } from "../../../constants"
+} from "../../../components";
+import FastImage from "react-native-fast-image";
+import { Svg, Navigation } from "../../../constants";
 import {
   useGetProfileQuery,
   useUpdateProfilePicMutation,
-} from "../../../services/modules/auth"
-import { BottomSheetModal } from "@gorhom/bottom-sheet"
-import { selectImage } from "../../../helpers/utils"
-import { showMessage } from "react-native-flash-message"
+} from "../../../services/modules/auth";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { selectImage } from "../../../helpers/utils";
+import { showMessage } from "react-native-flash-message";
 // import { GoogleSignin } from "@react-native-google-signin/google-signin"
-import { useAuth } from "../../../hooks"
-import { appColor } from "@/constants/color"
-import LoadingView from "@/components/loadingView/LoadingView"
+import { useAuth } from "../../../hooks";
+import { appColor } from "@/constants/color";
+import LoadingView from "@/components/loadingView/LoadingView";
+import { router, useNavigation } from "expo-router";
 
-type Props = {}
+type Props = {};
 
-const Profile = ({ navigation }: any) => {
-  const { data: profile, isLoading } = useGetProfileQuery()
-  const [updatePic] = useUpdateProfilePicMutation()
-  const { removeAuth } = useAuth()
-  const [modalType, setModalType] = useState<"bio" | "name" | null>(null)
-  const bottomRef = useRef<BottomSheetModal>(null)
+const Profile = () => {
+  const navigation = useNavigation();
+  const { data: profile, isLoading, refetch } = useGetProfileQuery();
+  const [updatePic] = useUpdateProfilePicMutation();
+  const { removeAuth } = useAuth();
+  const [modalType, setModalType] = useState<"bio" | "name" | null>(null);
+  const bottomRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -48,13 +51,13 @@ const Profile = ({ navigation }: any) => {
           <CustomText weight="bold">Sign Out</CustomText>
         </TouchableOpacity>
       ),
-    })
-  }, [])
+    });
+  }, []);
 
   const openEditProfileModal = (type: "name" | "bio") => {
-    setModalType(type)
-    bottomRef?.current?.present({ type })
-  }
+    setModalType(type);
+    bottomRef?.current?.present({ type });
+  };
 
   const handleShare = async () => {
     try {
@@ -64,44 +67,44 @@ const Profile = ({ navigation }: any) => {
       //   url: "https://wemeet.page.link",
       // })
     } catch (error) {
-      console.log("error with sharing app", error)
+      console.log("error with sharing app", error);
     }
-  }
+  };
 
   const handleSelectImage = async () => {
-    const uri = await selectImage()
-    if (!uri) return
-    const formData = new FormData()
+    const uri = await selectImage();
+    if (!uri) return;
+    const formData = new FormData();
     // @ts-ignore
     formData.append("image", {
       uri: uri,
       name: "image.jpg",
       type: "image/jpeg",
-    })
+    });
     try {
-      await updatePic(formData).unwrap()
+      await updatePic(formData).unwrap();
     } catch (error) {
-      showMessage({ message: "Failed to update profile pic", type: "danger" })
+      showMessage({ message: "Failed to update profile pic", type: "danger" });
     }
-  }
+  };
 
   const handleRateApp = () => {
     // This package is only available on android version >= 21 and iOS >= 10.3
 
     // Give you result if version of device supported to rate app or not!
-    StoreReview.isAvailableAsync()
+    StoreReview.isAvailableAsync();
 
     // trigger UI InAppreview
     StoreReview.requestReview()
       .then((hasFlowFinishedSuccessfully) => {
         // when return true in android it means user finished or close review flow
-        console.log("InAppReview in android", hasFlowFinishedSuccessfully)
+        console.log("InAppReview in android", hasFlowFinishedSuccessfully);
 
         // when return true in ios it means review flow lanuched to user.
         console.log(
           "InAppReview in ios has launched successfully",
           hasFlowFinishedSuccessfully
-        )
+        );
 
         // 1- you have option to do something ex: (navigate Home page) (in android).
         // 2- you have option to do something,
@@ -127,23 +130,23 @@ const Profile = ({ navigation }: any) => {
         //we continue our app flow.
         // we have some error could happen while lanuching InAppReview,
         // Check table for errors and code number that can return in catch.
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
 
   const signOut = async () => {
     try {
       //   await GoogleSignin.signOut()
-      removeAuth()
+      removeAuth();
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
-  if (isLoading) return <LoadingView />
+  if (isLoading) return <LoadingView />;
 
   return (
-    <Layout>
+    <Layout style={{ padding: 30 }}>
       <View
         style={{
           paddingTop: 8,
@@ -188,7 +191,9 @@ const Profile = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
         <View style={{ position: "relative" }}>
-          <CustomText size="h3">{profile?.name}</CustomText>
+          <CustomText size="h6" weight="medium">
+            {profile?.name}
+          </CustomText>
           <CustomText>
             <CustomText weight="bold">22</CustomText> Meets
           </CustomText>
@@ -209,7 +214,13 @@ const Profile = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+        }
+      >
         <ProfileItem
           title="Edit Bio"
           icon={
@@ -231,11 +242,11 @@ const Profile = ({ navigation }: any) => {
         <NotificationToggle />
         <View
           style={{
-            paddingTop: 4,
-            paddingVertical: 4,
+            paddingVertical: 20,
             borderTopWidth: 1,
             borderBottomWidth: 1,
             borderColor: "#D1D5DB",
+            marginVertical: 20,
           }}
         >
           <ProfileItem
@@ -253,9 +264,12 @@ const Profile = ({ navigation }: any) => {
               </View>
             }
             handlePress={() => {
-              navigation.navigate(Navigation.WEB_SCREEN, {
-                url: "https://okp980.github.io/weMeet/terms_and_condition",
-              })
+              router.navigate({
+                pathname: "web",
+                params: {
+                  url: "https://okp980.github.io/weMeet/terms_and_condition",
+                },
+              });
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -274,9 +288,12 @@ const Profile = ({ navigation }: any) => {
               </View>
             }
             handlePress={() => {
-              navigation.navigate(Navigation.WEB_SCREEN, {
-                url: "https://okp980.github.io/weMeet/policy",
-              })
+              router.navigate({
+                pathname: "web",
+                params: {
+                  url: "https://okp980.github.io/weMeet/terms_and_condition",
+                },
+              });
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -322,7 +339,7 @@ const Profile = ({ navigation }: any) => {
       </ScrollView>
       <EditProfile ref={bottomRef} type={modalType as "bio" | "name"} />
     </Layout>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
