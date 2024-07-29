@@ -5,57 +5,65 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-} from "react-native"
-import React from "react"
-import { Svg } from "../../constants"
-import { Button, CustomText, Layout } from "../../components"
-import FastImage from "react-native-fast-image"
-import { Link, Stack, router } from "expo-router"
-import { appColor } from "@/constants/color"
-import { ThemedView } from "@/components/ThemedView"
+} from "react-native";
+import React from "react";
+import { Svg } from "../../constants";
+import { Button, CustomText, Layout } from "../../components";
+import FastImage from "react-native-fast-image";
+import { Link, Stack, router } from "expo-router";
+import { appColor } from "@/constants/color";
+import { ThemedView } from "@/components/ThemedView";
 
-type Props = {}
+type Props = {};
 
-const interests = ["Travelling", "Books", "Music", "Dancing", "Modeling"]
+const interests = ["Travelling", "Books", "Music", "Dancing", "Modeling"];
 
 const Profile = ({ navigation }: any) => {
   return (
     <Layout>
       <ScrollView style={{ flex: 1 }}>
-        <Stack.Screen options={{ presentation: "fullScreenModal" }} />
+        <Stack.Screen
+          options={{
+            presentation: "fullScreenModal",
+            headerShown: true,
+            headerTransparent: true,
+            title: "",
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderColor: appColor.BORDER,
+                  borderRadius: 16,
+                  height: 48,
+                  width: 56,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#ffffff20",
+                }}
+                onPress={router.back}
+              >
+                <Svg.LeftCaret fill={"#fff"} />
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <ImageBackground
           source={{
             uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
           }}
           resizeMode="cover"
           style={{ height: 500 }}
-        >
-          <View style={{ paddingTop: 40, paddingLeft: 28 }}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: appColor.BORDER,
-                borderRadius: 16,
-                height: 48,
-                width: 56,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#ffffff20",
-              }}
-              onPress={router.back}
-            >
-              <Svg.LeftCaret fill={"#fff"} />
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
+        ></ImageBackground>
         <ThemedView
           style={{
             position: "relative",
             borderTopLeftRadius: 40,
             borderTopRightRadius: 40,
-            top: -10,
+            top: -35,
             paddingHorizontal: 40,
             paddingTop: 80,
+            paddingBottom: 40,
+            gap: 20,
           }}
         >
           <View
@@ -66,23 +74,39 @@ const Profile = ({ navigation }: any) => {
             }}
           >
             <View>
-              <CustomText size="h2">Jessica Parker, 23</CustomText>
-              <CustomText size="small">Professional model</CustomText>
+              <CustomText size="h6" weight="medium">
+                Jessica Parker, 23
+              </CustomText>
+              <CustomText>Professional model</CustomText>
             </View>
-            <Button
-              variant="outline"
-              style={{ margin: 0, height: 56, width: 56 }}
-              startIcon={<Svg.Send fill={appColor.PRIMARY} />}
-            />
+
+            <TouchableOpacity
+              style={[
+                // styles.shadow,
+                {
+                  height: 56,
+                  width: 56,
+                  borderRadius: 56 / 2,
+                  borderWidth: 1,
+                  borderColor: appColor.PRIMARY,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: 'transparent",',
+                },
+              ]}
+            >
+              <Svg.Send fill={appColor.PRIMARY} />
+            </TouchableOpacity>
           </View>
-          <View style={{ marginTop: 8 }}>
-            <CustomText size="h3" style={{ marginBottom: 16 }}>
+
+          <View>
+            <CustomText size="h6" weight="medium">
               Location
             </CustomText>
             <CustomText size="small">Chicago, IL United States</CustomText>
           </View>
-          <View style={{ marginTop: 8 }}>
-            <CustomText size="h3" style={{ marginBottom: 8 }}>
+          <View>
+            <CustomText size="h6" weight="medium">
               About
             </CustomText>
             <CustomText>
@@ -90,18 +114,25 @@ const Profile = ({ navigation }: any) => {
               finding ways to help them have an uplifting experience. I enjoy
               reading..
             </CustomText>
-            <Button variant="text" btnStyle={{ marginTop: 8 }}>
+            <Button
+              variant="text"
+              btnStyle={{ marginTop: 8 }}
+              textStyle={{
+                color: appColor.PRIMARY,
+                fontFamily: "AirbnbCereal-Medium",
+              }}
+            >
               Read more
             </Button>
           </View>
-          <View style={{ marginTop: 8 }}>
-            <CustomText size="h3" style={{ marginBottom: 8 }}>
+          <View>
+            <CustomText size="h6" weight="medium">
               Interests
             </CustomText>
             <View
               style={{
                 flexDirection: "row",
-                gap: 4,
+                gap: 6,
                 flexWrap: "wrap",
                 justifyContent: "center",
               }}
@@ -112,6 +143,7 @@ const Profile = ({ navigation }: any) => {
                   style={{
                     width: "25%",
                     borderWidth: 1,
+                    borderRadius: 4,
                     borderColor: "#E8E6EA",
                     padding: 8,
                   }}
@@ -127,15 +159,16 @@ const Profile = ({ navigation }: any) => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
+                marginBottom: 10,
               }}
             >
-              <CustomText size="h3" style={{ marginBottom: 16 }}>
+              <CustomText size="h6" weight="medium">
                 Gallery
               </CustomText>
 
               <Link href={{ pathname: "gallery", params: { user: "1" } }}>
                 <CustomText
-                  size="tiny"
+                  size="small"
                   weight="medium"
                   lightColor={appColor.PRIMARY}
                   darkColor={appColor.PRIMARY}
@@ -214,11 +247,16 @@ const Profile = ({ navigation }: any) => {
               />
             </View>
           </View>
-          <View style={{ position: "absolute", top: -50, left: 0, right: 0 }}>
+          <View
+            style={{
+              position: "absolute",
+              top: -50,
+              left: "10%",
+              right: "10%",
+            }}
+          >
             <View
               style={{
-                width: "80%",
-                marginHorizontal: "auto",
                 flexDirection: "row",
                 justifyContent: "space-around",
                 alignItems: "center",
@@ -236,35 +274,33 @@ const Profile = ({ navigation }: any) => {
                   styles.shadow,
                 ]}
               >
-                <Svg.Times height={30} />
+                <Svg.Times height={30} fill={"red"} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.shadow,
                   {
                     backgroundColor: appColor.PRIMARY,
-                    shadowColor: appColor.PRIMARY,
-                    shadowRadius: 10,
-                    shadowOpacity: 0.25,
+
                     height: 96,
                     width: 96,
                     borderRadius: 96 / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
                   },
                 ]}
               >
-                <Svg.Heart height={30} />
+                <Svg.Heart height={30} fill={"orange"} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.shadow,
                   {
-                    backgroundColor: appColor.PRIMARY,
-                    shadowColor: appColor.PRIMARY,
-                    shadowRadius: 10,
-                    shadowOpacity: 0.25,
-                    height: 96,
-                    width: 96,
-                    borderRadius: 96 / 2,
+                    height: 64,
+                    width: 64,
+                    borderRadius: 64 / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
                   },
                 ]}
               >
@@ -275,10 +311,10 @@ const Profile = ({ navigation }: any) => {
         </ThemedView>
       </ScrollView>
     </Layout>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
 
 const styles = StyleSheet.create({
   shadow: {
@@ -291,6 +327,5 @@ const styles = StyleSheet.create({
     },
     elevation: 3,
     backgroundColor: "white",
-    position: "relative",
   },
-})
+});

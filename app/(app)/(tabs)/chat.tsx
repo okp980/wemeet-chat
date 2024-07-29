@@ -1,5 +1,5 @@
-import { View, FlatList } from "react-native"
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import { View, FlatList } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityCard,
   CustomInput,
@@ -8,27 +8,27 @@ import {
   Layout,
   Message,
   MessageCard,
-} from "../../../components"
-import { Controller } from "react-hook-form"
-import { useGetMeetsQuery } from "../../../services/modules/meet"
-import { BottomSheetModal } from "@gorhom/bottom-sheet"
-import socket from "../../../services/socket"
+} from "../../../components";
+import { Controller } from "react-hook-form";
+import { useGetMeetsQuery } from "../../../services/modules/meet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import socket from "../../../services/socket";
 // import { GoogleSignin } from "@react-native-google-signin/google-signin"
-import { useAuth } from "../../../hooks"
-import { IChat } from "../../../types/chat"
+import { useAuth } from "../../../hooks";
+import { IChat } from "../../../types/chat";
 
-type Props = any
+type Props = any;
 
 type FormValues = {
-  search: string
-}
+  search: string;
+};
 
 const Chat = ({ navigation }: Props) => {
-  const bottomRef = useRef<BottomSheetModal>(null)
-  const [isConnected, setIsConnected] = useState(socket.connected)
-  const [friendId, setFriendId] = useState<number | null>(null)
-  const [chats, setChats] = useState<IChat[]>([])
-  const { removeAuth } = useAuth()
+  const bottomRef = useRef<BottomSheetModal>(null);
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [friendId, setFriendId] = useState<number | null>(null);
+  const [chats, setChats] = useState<IChat[]>([]);
+  const { removeAuth } = useAuth();
 
   const {
     data: matches,
@@ -36,63 +36,51 @@ const Chat = ({ navigation }: Props) => {
     isSuccess,
     isError,
     error,
-  } = useGetMeetsQuery({ page: 1, limit: 10 })
+    refetch: refetchMeets,
+  } = useGetMeetsQuery({ page: 1, limit: 10 });
   const onSubmit = (data: FormValues) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   useEffect(() => {
     function onConnect() {
-      setIsConnected(true)
+      setIsConnected(true);
     }
     function onError(error: any) {
-      console.log("error is", error)
+      console.log("error is", error);
     }
 
     function onDisconnect() {
-      setIsConnected(false)
+      setIsConnected(false);
     }
 
     function onChatEvent(chats: IChat[]) {
-      console.log("chats is here", chats)
+      console.log("chats is here", chats);
 
-      setChats((previous) => chats)
+      setChats((previous) => chats);
     }
 
-    socket.on("connect", onConnect)
-    socket.on("disconnect", onDisconnect)
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
     // socket.emit('chats', {}, onChatEvent); // for pagination TODO later, remove from here
-    socket.on("chats", onChatEvent)
-    socket.on("connect_error", onError)
+    socket.on("chats", onChatEvent);
+    socket.on("connect_error", onError);
 
     return () => {
-      socket.off("connect", onConnect)
-      socket.off("disconnect", onDisconnect)
-      socket.off("connect_error", onError)
-      socket.off("chats", onChatEvent)
-    }
-  }, [])
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("connect_error", onError);
+      socket.off("chats", onChatEvent);
+    };
+  }, []);
 
   const handleOpenMessage = (userId: number) => {
-    setFriendId(userId)
-    bottomRef?.current?.present()
-  }
-
-  //   const signOut = async () => {
-  //     try {
-  //       const signout = await GoogleSignin.signOut()
-  //       console.log(signout)
-  //       console.log("ssigned out")
-  //       removeAuth()
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //   }
-
-  // signOut();
+    setFriendId(userId);
+    bottomRef?.current?.present();
+  };
 
   return (
-    <Layout>
+    <Layout style={{ padding: 20, paddingTop: 40 }}>
       <View>
         <Form<FormValues> onSubmit={onSubmit}>
           {({ handleSubmit, control, formState: { errors } }) => (
@@ -111,34 +99,47 @@ const Chat = ({ navigation }: Props) => {
             />
           )}
         </Form>
-        <CustomText size="h3">Activities</CustomText>
+        <CustomText size="h6" weight="medium">
+          Activities
+        </CustomText>
         <FlatList
           style={{ marginVertical: 4, height: 112 }}
+          contentContainerStyle={{
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
           data={matches?.data ?? []}
           renderItem={({ item }) => (
             <ActivityCard
               meet={item}
               userId={matches?.currentUserId!}
               openMessage={() => {
-                handleOpenMessage(item.id)
+                handleOpenMessage(item.id);
               }}
             />
           )}
           keyExtractor={(item, index) => (item.id + index).toString()}
-          ItemSeparatorComponent={() => <View className="mr-4" />}
+          ItemSeparatorComponent={() => <View style={{ marginRight: 16 }} />}
           horizontal
           showsHorizontalScrollIndicator={false}
-          ListEmptyComponent={
-            <CustomText style={{ textAlign: "center" }}>
-              No Friends yet.
-            </CustomText>
-          }
+          ListEmptyComponent={<CustomText>No friends yet.</CustomText>}
+          refreshing={isLoading}
+          onRefresh={refetchMeets}
         />
       </View>
       <View style={{ flex: 1 }}>
-        <CustomText size="h3">Messages</CustomText>
+        <CustomText size="h6" weight="medium">
+          Messages
+        </CustomText>
         <FlatList
           style={{ marginVertical: 8 }}
+          contentContainerStyle={{
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            flex: 1,
+          }}
           data={chats}
           renderItem={({ item }) => (
             <MessageCard
@@ -149,16 +150,12 @@ const Chat = ({ navigation }: Props) => {
           keyExtractor={(item, index) => (item.id + index).toString()}
           ItemSeparatorComponent={() => <View style={{ marginBottom: 8 }} />}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <CustomText style={{ textAlign: "center" }}>
-              No Chats yet.
-            </CustomText>
-          }
+          ListEmptyComponent={<CustomText>No Chats yet.</CustomText>}
         />
       </View>
       <Message ref={bottomRef} friendId={friendId} />
     </Layout>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

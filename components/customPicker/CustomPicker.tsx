@@ -1,34 +1,34 @@
-import { TouchableOpacity } from "react-native"
-import React, { useState } from "react"
-import CustomText from "../customText/CustomText"
-import DatePicker from "react-native-date-picker"
+import { TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import CustomText from "../customText/CustomText";
+import DatePicker from "react-native-date-picker";
 import {
   differenceInYears,
   format,
   intervalToDuration,
   subYears,
-} from "date-fns"
-import { ThemedView } from "../ThemedView"
-import { appColor } from "@/constants/color"
+} from "date-fns";
+import { ThemedView } from "../ThemedView";
+import { appColor } from "@/constants/color";
 
 type Props = {
-  label: string
-  onChange: (text: number) => void
-}
+  label: string;
+  onChange: (text: number) => void;
+};
 
 const CustomPicker = ({ label, onChange }: Props) => {
-  const [date, setDate] = useState(subYears(new Date(), 18))
-  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(subYears(new Date(), 18));
+  const [open, setOpen] = useState(false);
 
   const handleConfirm = (date: Date) => {
-    const { years } = intervalToDuration({ start: date, end: new Date() })
-    setOpen(false)
-    setDate(date)
-    onChange(years!)
-  }
+    const { years } = intervalToDuration({ start: date, end: new Date() });
+    setOpen(false);
+    setDate(date);
+    onChange(years!);
+  };
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   return (
     <TouchableOpacity onPress={() => setOpen(true)}>
       <ThemedView
@@ -42,7 +42,14 @@ const CustomPicker = ({ label, onChange }: Props) => {
         }}
       >
         <CustomText>{format(date, "dd-MM-yyyy")}</CustomText>
-        <ThemedView style={{ position: "absolute", top: -10, left: 24 }}>
+        <ThemedView
+          style={{
+            position: "absolute",
+            top: -8,
+            left: 15,
+            paddingHorizontal: 15,
+          }}
+        >
           <CustomText size="small">{label}</CustomText>
         </ThemedView>
       </ThemedView>
@@ -56,7 +63,7 @@ const CustomPicker = ({ label, onChange }: Props) => {
         maximumDate={subYears(new Date(), 18)}
       />
     </TouchableOpacity>
-  )
-}
+  );
+};
 
-export default CustomPicker
+export default CustomPicker;

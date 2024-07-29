@@ -4,33 +4,33 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-} from "react-native"
-import React, { useEffect, useState } from "react"
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   CustomInput,
   CustomPicker,
   CustomText,
   Layout,
-} from "../../components"
-import { Controller, useForm } from "react-hook-form"
-import { Img, Navigation, Svg } from "../../constants"
-import FastImage from "react-native-fast-image"
-import { showMessage } from "react-native-flash-message"
-import { useGetProfileQuery } from "../../services/modules/auth"
-import { useBioDataMutation } from "../../services/modules/onboarding"
-import { selectImage } from "@/helpers/utils"
-import { appColor } from "@/constants/color"
+} from "../../components";
+import { Controller, useForm } from "react-hook-form";
+import { Img, Navigation, Svg } from "../../constants";
+import FastImage from "react-native-fast-image";
+import { showMessage } from "react-native-flash-message";
+import { useGetProfileQuery } from "../../services/modules/auth";
+import { useBioDataMutation } from "../../services/modules/onboarding";
+import { selectImage } from "@/helpers/utils";
+import { appColor } from "@/constants/color";
 
 type FormValues = {
-  fullName: string
-  age: number
-}
+  fullName: string;
+  age: number;
+};
 
 const BioData = ({ navigation }: any) => {
-  const [selectedImageURI, setSelectedImageURI] = useState("")
-  const { data: profile, isSuccess, isError, error } = useGetProfileQuery()
-  const [updateBioData, { isLoading: isLoadingBiodata }] = useBioDataMutation()
+  const [selectedImageURI, setSelectedImageURI] = useState("");
+  const { data: profile, isSuccess, isError, error } = useGetProfileQuery();
+  const [updateBioData, { isLoading: isLoadingBiodata }] = useBioDataMutation();
 
   const {
     control,
@@ -42,18 +42,18 @@ const BioData = ({ navigation }: any) => {
       fullName: "",
       age: 18,
     },
-  })
+  });
 
   useEffect(() => {
     if (profile) {
       reset({
         fullName: profile.name || "",
         age: profile.age || 18,
-      })
+      });
       profile.image &&
         setSelectedImageURI(
           `${process.env.EXPO_PUBLIC_AWS_S3_LINK}/${profile.image}`
-        )
+        );
     }
     if (error) {
       showMessage({
@@ -62,62 +62,61 @@ const BioData = ({ navigation }: any) => {
             ? error?.data?.message
             : "Error fetching profile information",
         type: "danger",
-      })
+      });
     }
-  }, [isSuccess, profile, isError, error])
+  }, [isSuccess, profile, isError, error]);
 
   const handleSelectImage = async () => {
-    const uri = await selectImage()
-    setSelectedImageURI(uri as string)
-  }
+    const uri = await selectImage();
+    setSelectedImageURI(uri as string);
+  };
 
   const onSubmit = async (data: FormValues) => {
-    const formData = new FormData()
+    const formData = new FormData();
 
     if (selectedImageURI.trim() === "") {
       showMessage({
         type: "danger",
         message: "Please attach an image of yourself before submitting.",
-      })
-      return
+      });
+      return;
     }
     // @ts-ignore
     formData.append("image", {
       uri: selectedImageURI,
       name: "image.jpg",
       type: "image/jpeg",
-    })
-    formData.append("name", data.fullName)
+    });
+    formData.append("name", data.fullName);
     // @ts-ignore
-    formData.append("age", data.age)
+    formData.append("age", data.age);
     try {
-      await updateBioData(formData).unwrap()
-      navigation.navigate(Navigation.GENDER_SCREEN)
+      await updateBioData(formData).unwrap();
+      navigation.navigate(Navigation.GENDER_SCREEN);
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       showMessage({
         type: "danger",
         message:
           "data" in error ? error?.data?.message : "Error updating details",
-      })
+      });
     }
-  }
+  };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <Layout
+      style={{
+        paddingVertical: 20,
+        paddingHorizontal: 40,
+      }}
     >
-      <Layout
-        style={{
-          paddingTop: 20,
-          paddingBottom: 20,
-          paddingLeft: 40,
-          paddingRight: 40,
-          justifyContent: "space-between",
-        }}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <CustomText size="h2">Profile details</CustomText>
+        <CustomText size="h4" weight="medium">
+          Profile details
+        </CustomText>
         <View
           style={{
             marginLeft: "auto",
@@ -126,6 +125,7 @@ const BioData = ({ navigation }: any) => {
             borderRadius: 16,
             width: 112,
             height: 112,
+            marginTop: 30,
           }}
         >
           <FastImage
@@ -157,7 +157,7 @@ const BioData = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
 
-        <View>
+        <View style={{ marginTop: 30, flex: 1 }}>
           <Controller
             control={control}
             name="fullName"
@@ -182,11 +182,8 @@ const BioData = ({ navigation }: any) => {
           />
           <Button
             variant="primary"
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              width: "100%",
-              marginTop: 20,
+            btnStyle={{
+              marginTop: 40,
             }}
             loading={isLoadingBiodata}
             onPress={handleSubmit(onSubmit)}
@@ -194,9 +191,9 @@ const BioData = ({ navigation }: any) => {
             Confirm
           </Button>
         </View>
-      </Layout>
-    </KeyboardAvoidingView>
-  )
-}
+      </KeyboardAvoidingView>
+    </Layout>
+  );
+};
 
-export default BioData
+export default BioData;

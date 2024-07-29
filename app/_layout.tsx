@@ -2,26 +2,28 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
-} from "@react-navigation/native"
-import { useFonts } from "expo-font"
-import { Slot, Stack } from "expo-router"
-import * as SplashScreen from "expo-splash-screen"
-import { StatusBar } from "expo-status-bar"
-import { useEffect } from "react"
-import { PersistGate } from "redux-persist/lib/integration/react"
-import "react-native-reanimated"
-import { SafeAreaProvider } from "react-native-safe-area-context"
-import { Provider } from "react-redux"
-import { persistor, store } from "@/store"
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import FlashMessage from "react-native-flash-message"
-import { GestureHandlerRootView } from "react-native-gesture-handler"
-import "../global.css"
+} from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { Slot, Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import { PersistGate } from "redux-persist/lib/integration/react";
+import "react-native-reanimated";
+import "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import { persistor, store } from "@/store";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import FlashMessage from "react-native-flash-message";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "../global.css";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 // import { useColorScheme } from '@/hooks/useColorScheme';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   // const colorScheme = useColorScheme();
@@ -32,16 +34,16 @@ export default function RootLayout() {
     "AirbnbCereal-Medium": require("@/assets/fonts/AirbnbCereal_W_Md.otf"),
     "AirbnbCereal-Regular": require("@/assets/fonts/AirbnbCereal_W_Bk.otf"),
     "AirbnbCereal-Light": require("@/assets/fonts/AirbnbCereal_W_Lt.otf"),
-  })
+  });
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync()
+      SplashScreen.hideAsync();
     }
-  }, [loaded])
+  }, [loaded]);
 
   if (!loaded) {
-    return null
+    return null;
   }
 
   return (
@@ -52,7 +54,22 @@ export default function RootLayout() {
         <PersistGate loading={null} persistor={persistor}>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <BottomSheetModalProvider>
-              <Slot />
+              <AlertNotificationRoot
+                toastConfig={{
+                  textBodyStyle: {
+                    fontFamily: "AirbnbCereal-Regular",
+                    fontSize: 14,
+                    lineHeight: 20,
+                  },
+                  titleStyle: {
+                    fontFamily: "AirbnbCereal-SemiBold",
+                    fontSize: 20,
+                    lineHeight: 24,
+                  },
+                }}
+              >
+                <Slot />
+              </AlertNotificationRoot>
               <FlashMessage position="top" />
             </BottomSheetModalProvider>
           </GestureHandlerRootView>
@@ -60,5 +77,5 @@ export default function RootLayout() {
       </Provider>
     </SafeAreaProvider>
     // </ThemeProvider>
-  )
+  );
 }

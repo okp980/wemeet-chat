@@ -1,25 +1,28 @@
-import { View, Text, TouchableOpacity } from "react-native"
-import React from "react"
-import { useNavigation } from "@react-navigation/native"
-import Svg from "../../constants/svg"
-import { Navigation } from "../../constants"
-import { ThemedView } from "../ThemedView"
-import { useAuth } from "@/hooks"
-import { useThemeColor } from "@/hooks/useThemeColor"
-import CustomText from "../customText/CustomText"
-import { appColor } from "@/constants/color"
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import Svg from "../../constants/svg";
+import { Navigation } from "../../constants";
+import { ThemedView } from "../ThemedView";
+import { useAuth } from "@/hooks";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import CustomText from "../customText/CustomText";
+import { appColor } from "@/constants/color";
+import { StatusBar } from "react-native";
+import { router } from "expo-router";
 
 type Props = {
-  next: keyof typeof Navigation
-}
+  next: string;
+};
 
 export const OnboardHeaderWithOutGoBack = ({ next }: Props) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   return (
     <ThemedView
       style={{
         height: 56,
+        paddingTop: StatusBar.currentHeight,
         paddingHorizontal: 16,
         flexDirection: "row",
         alignItems: "center",
@@ -30,40 +33,41 @@ export const OnboardHeaderWithOutGoBack = ({ next }: Props) => {
         onPress={() =>
           next === Navigation.HOME_SCREEN
             ? // @ts-ignore
-              navigation.navigate(Navigation.TAB_NAVIGATION, {
+              router.navigate(Navigation.TAB_NAVIGATION, {
                 path: Navigation.HOME_SCREEN,
               })
             : // @ts-ignore
-              navigation.navigate(next)
+              router.navigate(next)
         }
       >
         <CustomText style={{ color: appColor.PRIMARY }}>skip</CustomText>
       </TouchableOpacity>
     </ThemedView>
-  )
-}
+  );
+};
 
 const OnboardHeader = ({ next }: Props) => {
-  const iconColor = useThemeColor({}, "icon")
-  const navigation = useNavigation()
-  const { compeleteProfileOnboarding } = useAuth()
+  const iconColor = useThemeColor({}, "icon");
+  const navigation = useNavigation();
+  const { compeleteProfileOnboarding } = useAuth();
   const onNavigate = (next: string) => {
     if (next === Navigation.HOME_SCREEN) {
-      compeleteProfileOnboarding()
+      compeleteProfileOnboarding();
       // @ts-ignore
       navigation.navigate(Navigation.TAB_NAVIGATION, {
         screen: Navigation.HOME_SCREEN,
-      })
+      });
     } else {
       // @ts-ignore
-      navigation.navigate(next)
+      navigation.navigate(next);
     }
-  }
+  };
   return (
     <ThemedView
       style={{
         height: 64,
         paddingHorizontal: 16,
+        paddingTop: StatusBar.currentHeight,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
@@ -88,7 +92,7 @@ const OnboardHeader = ({ next }: Props) => {
         <CustomText style={{ color: appColor.PRIMARY }}>skip</CustomText>
       </TouchableOpacity>
     </ThemedView>
-  )
-}
+  );
+};
 
-export default OnboardHeader
+export default OnboardHeader;

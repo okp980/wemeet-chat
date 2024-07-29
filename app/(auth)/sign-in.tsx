@@ -1,54 +1,60 @@
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native"
-import React from "react"
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 import {
   GoogleSignin,
   isErrorWithCode,
   statusCodes,
-} from "@react-native-google-signin/google-signin"
+} from "@react-native-google-signin/google-signin";
 
-import { Navigation, Svg } from "../../constants"
-import { useSignInWithSocialMutation } from "../../services/modules/auth"
-import { SocialProvider } from "../../types/auth"
-import { useAuth } from "../../hooks"
-import { showMessage } from "react-native-flash-message"
-import { Button, CustomText, Layout } from "../../components"
-import { Link } from "expo-router"
-import { appColor } from "@/constants/color"
-import LoadingView from "@/components/loadingView/LoadingView"
+import { Navigation, Svg } from "../../constants";
+import { useSignInWithSocialMutation } from "../../services/modules/auth";
+import { SocialProvider } from "../../types/auth";
+import { useAuth } from "../../hooks";
+import { showMessage } from "react-native-flash-message";
+import { Button, CustomText, Layout } from "../../components";
+import { Link, router } from "expo-router";
+import { appColor } from "@/constants/color";
+import LoadingView from "@/components/loadingView/LoadingView";
 
-const { Apple, Facebook, Google, Logo } = Svg
+const { Apple, Facebook, Google, Logo } = Svg;
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
   offlineAccess: true,
-})
+});
 
 const SignIn = () => {
-  const [signInWithSocial, { isLoading }] = useSignInWithSocialMutation()
-  const { authenticateUser, fcmToken } = useAuth()
+  const [signInWithSocial, { isLoading }] = useSignInWithSocialMutation();
+  const { authenticateUser, fcmToken } = useAuth();
   const signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices()
-      const userInfo = await GoogleSignin.signIn()
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+
       const response = await signInWithSocial({
         token: userInfo.idToken!,
         provider: SocialProvider.GOOGLE,
         fcmToken: "",
-      }).unwrap()
-      authenticateUser(response.access_token)
+      }).unwrap();
+      console.log("response", response);
+
+      authenticateUser(response.access_token);
+      router.replace("/");
     } catch (error: any) {
+      console.log("error", error);
+
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.SIGN_IN_CANCELLED:
             // user cancelled the login flow
-            break
+            break;
           case statusCodes.IN_PROGRESS:
             // operation (eg. sign in) already in progress
-            break
+            break;
           case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
             // play services not available or outdated
-            break
+            break;
           default:
           // some other error happened
         }
@@ -56,9 +62,9 @@ const SignIn = () => {
         // an error that's not related to google sign in occurred
       }
     }
-  }
+  };
 
-  if (isLoading) return <LoadingView />
+  if (isLoading) return <LoadingView />;
   return (
     <Layout style={{ paddingHorizontal: 20 }}>
       <View
@@ -122,7 +128,7 @@ const SignIn = () => {
         </Link>
       </View>
     </Layout>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

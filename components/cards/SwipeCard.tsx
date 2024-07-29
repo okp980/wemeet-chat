@@ -5,20 +5,20 @@ import {
   StyleSheet,
   useWindowDimensions,
   Dimensions,
-} from "react-native"
-import React from "react"
-import { LinearGradient } from "expo-linear-gradient"
-import FastImage from "react-native-fast-image"
-import { User } from "../../types/auth"
-import CustomText from "../customText/CustomText"
+} from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import FastImage from "react-native-fast-image";
+import { User } from "../../types/auth";
+import CustomText from "../customText/CustomText";
 
 type Props = {
-  info: User
-}
-const { width, height } = Dimensions.get("screen")
+  info: User;
+};
+const { width, height } = Dimensions.get("screen");
 
-export const cardWidth = width * 0.75
-export const cardHeight = height * 0.5
+export const cardWidth = width * 0.75;
+export const cardHeight = height * 0.5;
 
 const SwipeCard = ({ info }: Props) => {
   return (
@@ -31,12 +31,13 @@ const SwipeCard = ({ info }: Props) => {
       <FastImage
         source={{ uri: info?.profile?.image }}
         style={[styles.image, StyleSheet.absoluteFillObject]}
-        className="rounded-2xl"
       />
       <LinearGradient
         colors={["transparent", "rgba(0,0,0,0.75)"]}
-        style={[StyleSheet.absoluteFillObject, { top: "50%" }]}
-        className="rounded-2xl"
+        style={[
+          StyleSheet.absoluteFillObject,
+          { top: "50%", borderRadius: 16 },
+        ]}
       />
       <View style={styles.info}>
         <CustomText size="h2" style={{ color: "white" }}>
@@ -46,10 +47,10 @@ const SwipeCard = ({ info }: Props) => {
     </View>
 
     // </TouchableOpacity>
-  )
-}
+  );
+};
 
-export default SwipeCard
+export default SwipeCard;
 
 const styles = StyleSheet.create({
   card: {
@@ -63,4 +64,4 @@ const styles = StyleSheet.create({
   info: {
     padding: 15,
   },
-})
+});

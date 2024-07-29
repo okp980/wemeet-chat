@@ -8,20 +8,20 @@ import {
   ActivityIndicator,
   StyleSheet,
   TextStyle,
-} from "react-native"
-import React, { ReactElement } from "react"
+} from "react-native";
+import React, { ReactElement } from "react";
 
-import CustomText from "../customText/CustomText"
-import { appColor } from "@/constants/color"
+import CustomText from "../customText/CustomText";
+import { appColor } from "@/constants/color";
 
 type Props = {
-  textStyle?: StyleProp<TextStyle>
-  btnStyle?: StyleProp<ViewStyle>
-  variant: "primary" | "outline" | "accent" | "text"
-  loading?: boolean
-  startIcon?: ReactElement
-  endIcon?: ReactElement
-} & TouchableOpacityProps
+  textStyle?: StyleProp<TextStyle>;
+  btnStyle?: StyleProp<ViewStyle>;
+  variant: "primary" | "outline" | "accent" | "text";
+  loading?: boolean;
+  startIcon?: ReactElement;
+  endIcon?: ReactElement;
+} & TouchableOpacityProps;
 
 const Button = ({
   textStyle,
@@ -38,7 +38,7 @@ const Button = ({
       <TouchableOpacity {...props} style={btnStyle}>
         <CustomText style={[textStyle]}>{children}</CustomText>
       </TouchableOpacity>
-    )
+    );
   }
   return (
     <TouchableOpacity
@@ -46,7 +46,7 @@ const Button = ({
         styles.default,
         variant === "primary" ? styles.primary : undefined,
         variant === "accent" ? styles.accent : undefined,
-        variant === "outline" ? styles.primary : undefined,
+        variant === "outline" ? styles.outline : undefined,
         btnStyle,
       ]}
       disabled={loading}
@@ -74,10 +74,10 @@ const Button = ({
         </View>
       )}
     </TouchableOpacity>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
 
 const styles = StyleSheet.create({
   default: {
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   oulineText: {
     color: appColor.PRIMARY,
   },
-})
+});

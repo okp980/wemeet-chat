@@ -1,25 +1,34 @@
-import { CustomText } from "@/components"
-import { Svg } from "@/constants"
-import { appColor } from "@/constants/color"
-import { useNotification } from "@/hooks"
-import { Tabs } from "expo-router"
-import React from "react"
-import { View } from "react-native"
+import { CustomText } from "@/components";
+import { Svg } from "@/constants";
+import { appColor } from "@/constants/color";
+import { useNotification } from "@/hooks";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Tabs } from "expo-router";
+import React from "react";
+import { View } from "react-native";
 
 export default function TabLayout() {
-  const { hasMatchRequest } = useNotification()
+  const { hasMatchRequest } = useNotification();
+  const backgroundColor = useThemeColor({}, "background");
 
   return (
     <Tabs
       screenOptions={({ route }) => ({
-        tabBarStyle: { height: 70 },
+        tabBarStyle: {
+          height: 80,
+          left: 20,
+          right: 20,
+          bottom: 20,
+          position: "absolute",
+          borderRadius: 40,
+        },
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
-          let icon
+          let icon;
           switch ((route.name as string).toLowerCase()) {
             case "index":
-              icon = <Svg.Home fill={focused ? appColor.PRIMARY : "#ADAFBB"} />
-              break
+              icon = <Svg.Home fill={focused ? appColor.PRIMARY : "#ADAFBB"} />;
+              break;
             case "match":
               icon = (
                 <View>
@@ -45,8 +54,8 @@ export default function TabLayout() {
                     />
                   )}
                 </View>
-              )
-              break
+              );
+              break;
             case "chat":
               icon = (
                 <View>
@@ -58,11 +67,11 @@ export default function TabLayout() {
                       width: 20,
                       justifyContent: "center",
                       alignItems: "center",
-                      borderRadius: 12 / 6,
+                      borderRadius: 20 / 2,
                       position: "absolute",
                       top: -8,
                       right: -10,
-                      borderWidth: 1,
+                      borderWidth: 0.5,
                       borderColor: "##F3F3F3",
                     }}
                   >
@@ -71,29 +80,30 @@ export default function TabLayout() {
                     </CustomText>
                   </View>
                 </View>
-              )
-              break
+              );
+              break;
             case "profile":
               icon = (
                 <Svg.Person fill={focused ? appColor.PRIMARY : "#ADAFBB"} />
-              )
-              break
+              );
+              break;
 
             default:
-              icon = null
-              break
+              icon = null;
+              break;
           }
 
-          return icon
+          return icon;
         },
         headerTitleAlign: "left",
-        headerShadowVisible: false,
+        headerShadowVisible: true,
         headerStyle: {
-          height: 80,
+          height: 120,
+          backgroundColor,
         },
         headerTitleStyle: {
-          fontSize: 32,
-          fontFamily: "NotoSansBold",
+          fontSize: 24,
+          fontFamily: "AirbnbCereal-SemiBold",
         },
       })}
     >
@@ -102,10 +112,10 @@ export default function TabLayout() {
         options={{
           headerTitle: () => (
             <>
-              <CustomText size="h4" className="text-3xl">
+              <CustomText size="h5" weight="semiBold">
                 Discover
               </CustomText>
-              <CustomText size="small">Chicago,ll.</CustomText>
+              <CustomText size="small">Chicago, ll.</CustomText>
             </>
           ),
         }}
@@ -119,5 +129,5 @@ export default function TabLayout() {
       />
       <Tabs.Screen name={"profile"} options={{ title: "Profile" }} />
     </Tabs>
-  )
+  );
 }

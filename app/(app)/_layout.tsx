@@ -1,27 +1,43 @@
-import LoadingView from "@/components/loadingView/LoadingView"
-import { useAuth } from "@/hooks"
-import { useGetProfileQuery } from "@/services/modules/auth"
-import { Redirect, Stack } from "expo-router"
-import { useEffect } from "react"
+import LoadingView from "@/components/loadingView/LoadingView";
+import { useAuth } from "@/hooks";
+import { useGetProfileQuery } from "@/services/modules/auth";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { Redirect, Stack } from "expo-router";
+import { useEffect } from "react";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 export default function AppLayout() {
-  const { token, hasOnboardedProfile, compeleteProfileOnboarding } = useAuth()
-  const { data: profile, isLoading, isSuccess } = useGetProfileQuery()
+  const { token, hasOnboardedProfile, compeleteProfileOnboarding } = useAuth();
+  const { type, isConnected } = useNetInfo();
 
   useEffect(() => {
-    // @ts-ignore
-    if (profile && profile?.profile?.passion && !hasOnboardedProfile) {
-      compeleteProfileOnboarding()
+    if (isConnected === false) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Warning",
+        textBody:
+          "No internet connection. Please check your connection and try again.",
+      });
     }
-  }, [isSuccess, profile])
+  }, [isConnected]);
 
-  if (isLoading) return <LoadingView />
+  console.log(isConnected);
+
+  // const { data: profile, isLoading, isSuccess } = useGetProfileQuery();
+
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   if (profile && profile?.profile?.passion && !hasOnboardedProfile) {
+  //     compeleteProfileOnboarding();
+  //   }
+  // }, [isSuccess, profile]);
+
+  // if (isLoading) return <LoadingView />;
   if (!token) {
-    return <Redirect href="/welcome" />
+    return <Redirect href="/sign-in" />;
   }
-  // @ts-ignore
-  if (!profile?.profile?.passion || !hasOnboardedProfile) {
-    return <Redirect href="/bio" />
+  if (!hasOnboardedProfile) {
+    return <Redirect href="/bio" />;
   }
-  return <Stack screenOptions={{ headerShown: false }} />
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

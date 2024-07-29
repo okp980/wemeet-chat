@@ -4,41 +4,42 @@ import {
   createApi,
   fetchBaseQuery,
   FetchBaseQueryError,
-} from "@reduxjs/toolkit/query/react"
-import { RootState } from "../store"
-import { clearAuth } from "../store/auth"
-import { Tag } from "../constants"
+} from "@reduxjs/toolkit/query/react";
+import { RootState } from "../store";
+import { clearAuth } from "../store/auth";
+import { Tag } from "../constants";
 
 interface CustomError {
-  data: { message: string; statusCode: number }
-  status: number
+  data: { message: string; statusCode: number };
+  status: number;
 }
-const baseUrl = __DEV__
-  ? process.env.EXPO_PUBLIC_DEV_API_URL
-  : process.env.EXPO_PUBLIC_STAGING_API_URL
+// const baseUrl = __DEV__
+//   ? process.env.EXPO_PUBLIC_DEV_API_URL
+//   : process.env.EXPO_PUBLIC_STAGING_API_URL
+const baseUrl = process.env.EXPO_PUBLIC_STAGING_API_URL;
 const baseQuery = fetchBaseQuery({
   baseUrl,
   prepareHeaders(headers, api) {
-    const token = (api.getState() as RootState).auth.token
+    const token = (api.getState() as RootState).auth.token;
 
     if (token) {
-      headers.set("authorization", `Bearer ${token}`)
+      headers.set("authorization", `Bearer ${token}`);
     }
-    return headers
+    return headers;
   },
-})
+});
 
 const baseQueryWithInterceptor: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions)
+  let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
-    api.dispatch(clearAuth())
+    api.dispatch(clearAuth());
   }
-  return result
-}
+  return result;
+};
 
 export const api = createApi({
   baseQuery: baseQueryWithInterceptor as BaseQueryFn<
@@ -54,4 +55,4 @@ export const api = createApi({
     Tag.NOTIFICATION_TAG,
     Tag.PROFILE_TAG,
   ],
-})
+});
